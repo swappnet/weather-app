@@ -18,7 +18,7 @@ if (savedData) {
     <section>
         <ul v-if="locations.length">
             <li v-for="(location, index) in locations" :key="index">
-                {{ location.date }} - {{ location.geoPoint }}
+                {{ location.geoPoint }}
             </li>
         </ul>
         <p v-else>

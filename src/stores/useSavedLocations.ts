@@ -15,29 +15,22 @@ export const useSavedLocationsStore = defineStore('locations', () => {
   }
 
   const checkIfExist = (geoPoint: GeoPoint) => {
-    const exists = locations.value.some((loc) => loc.geoPoint === geoPoint)
-
-    if (exists) {
-      return true
-    } else {
-      return false
-    }
+    return locations.value.some((loc) => loc.geoPoint === geoPoint)
   }
 
   const addLocation = (newLocation: { date: Date; geoPoint: GeoPoint }) => {
-    const exists = locations.value.some((loc) => loc.geoPoint === newLocation.geoPoint)
-
-    if (!exists) {
-      // Check if there are fewer than 6 locations
-      if (locations.value.length < 5) {
-        // Add the new location to the savedLocationsStore
-        updateLocations([...locations.value, newLocation])
-        return true // Location added successfully
-      } else {
-        return false // Cannot add more than 5 locations
-      }
-    } else {
+    if (checkIfExist(newLocation.geoPoint)) {
       removeLocation(newLocation.geoPoint)
+
+      return true
+    }
+
+    if (locations.value.length < 5) {
+      // Add the new location to the savedLocationsStore
+      updateLocations([...locations.value, newLocation])
+      return true // Location added successfully
+    } else {
+      return false // Cannot add more than 5 locations
     }
   }
 

@@ -1,22 +1,31 @@
 <script setup lang="ts">
-import { useSavedLocationsStore } from '@/stores/useSavedLocations';
 import { useLocationStore } from '@/stores/useLocationStore';
+import { useSavedLocationsStore } from '@/stores/useSavedLocations';
 
 import { storeToRefs } from 'pinia';
-import Button from './Button.vue';
 import { onMounted, ref, watch } from 'vue';
+import Button from './Button.vue';
 
 const savedLocationsStore = useSavedLocationsStore()
 const locationStore = useLocationStore()
 
 const { geoPoint } = storeToRefs(locationStore)
 const { locations } = storeToRefs(savedLocationsStore);
-const { addLocation, updateLocations, checkIfExist } = savedLocationsStore
+const { addLocation, checkIfExist } = savedLocationsStore
 
 const isFavorite = ref<Boolean>(false)
 
+onMounted(() => {
+    isFavorite.value = checkIfExist(geoPoint.value);
+});
+
 watch(locations, (newValue) => {
-    localStorage.setItem('savedLocations', JSON.stringify(newValue))
+    if (newValue) {
+        localStorage.setItem('savedLocations', JSON.stringify(newValue))
+
+        isFavorite.value = checkIfExist(geoPoint.value)
+    }
+
 })
 
 const handleAddToFavorites = () => {
@@ -31,8 +40,9 @@ const handleAddToFavorites = () => {
 </script>
 
 <template>
-    <button variant="transparent" @click="handleAddToFavorites"><font-awesome-icon icon="bookmark"
-            style="font-size:x-large;" /></button>
+    <button variant="transparent" @click="handleAddToFavorites"
+        :style="{ color: isFavorite && '#FFD700' }"><font-awesome-icon icon="bookmark" style="font-size:x-large;"
+            title="Save location" /></button>
 </template>
 
 <style scoped>
