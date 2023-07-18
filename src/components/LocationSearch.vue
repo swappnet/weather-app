@@ -11,7 +11,7 @@ interface GeoResponse {
     display_name?: string
 }
 
-const resultsRef = ref<HTMLDivElement>(null)
+const resultsRef = ref<HTMLDivElement>()
 const locationStore = useLocationStore()
 
 const geocoder = reactive({
