@@ -2,8 +2,8 @@
 import { useLocationStore } from '@/stores/useLocationStore'
 
 import Button from '@/components/Button.vue'
-import { reactive } from 'vue';
-import { onMounted } from 'vue';
+import { reactive, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 
 const locationStore = useLocationStore()
 
@@ -12,8 +12,15 @@ const location = reactive({
     errMsg: '',
 })
 
+const { initialLocationFounded, geoPoint } = storeToRefs(locationStore)
+
 onMounted(() => {
-    handleLocationFind();
+    if (!initialLocationFounded.value) {
+        handleLocationFind();
+
+        locationStore.updateInitialLocationFounded(true)
+    }
+
 });
 
 
@@ -24,7 +31,7 @@ const handleLocationFind = async () => {
         (position) => {
             locationStore.updateGeoPoint({
                 lat: position.coords.latitude,
-                lng: position.coords.longitude,
+                lon: position.coords.longitude,
             }
 
             )
@@ -48,6 +55,7 @@ const handleLocationFind = async () => {
     <Button variant="transparent" :disabled="location.loading" title="Find your location"
         @click="handleLocationFind()"><font-awesome-icon :icon="location.loading ? 'spinner' : 'location-arrow'"
             style="font-size:x-large;" :class="location.loading && 'spin'" class="find-location-button" /></Button>
+    {{ geoPoint }}
 </template>
 
 <style scoped>

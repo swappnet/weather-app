@@ -1,19 +1,33 @@
 <script setup lang="ts">
 
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 import LocationFinding from '@/components/LocationFinding.vue'
+import { useLocationStore } from '@/stores/useLocationStore';
+
+interface GeoResponse {
+    lat: number
+    lon: number
+    display_name?: string
+}
+
+const resultsRef = ref<HTMLDivElement>(null)
+const locationStore = useLocationStore()
 
 const geocoder = reactive({
     loading: false,
     resultsOpen: false,
     query: '',
-    results: [] as any,
+    results: [] as GeoResponse[],
     errMsg: '',
 })
 
-const handleInputClick = () => {
-    geocoder.resultsOpen = !geocoder.resultsOpen;
+const handleResultSelect = (result: GeoResponse) => {
+    const { lat, lon } = result;
+
+    locationStore.updateGeoPoint({ lat, lon })
+
+    geocoder.resultsOpen = false
 }
 
 const searchLocation = () => {
@@ -53,7 +67,6 @@ const fetchGeoData = async () => {
             geocoder.resultsOpen = true;
         }
 
-        geocoder.resultsOpen = false;
     } catch (error) {
         geocoder.errMsg = `An error occurred while searching location.`
     }
@@ -67,7 +80,15 @@ const fetchGeoData = async () => {
         <div class="location-geocoder-wrapper">
             <font-awesome-icon icon="search" style="font-size:large;" class="geocoder-icon" />
             <input class="geocoder-input" placeholder="Search location .." title="Search location" v-model="geocoder.query"
-                @input="searchLocation()" @click="handleInputClick" />
+                @input="searchLocation()" />
+
+            <div v-if="geocoder.resultsOpen && geocoder.results.length > 0" class="geocoder-results-wrapper"
+                ref="resultsRef">
+                <button v-for="(result, index) in geocoder.results.slice(0, 4)" :key="index" :title="result.display_name"
+                    @click="handleResultSelect(result)">
+                    {{ result.display_name }}
+                </button>
+            </div>
         </div>
         <LocationFinding />
     </div>
@@ -118,6 +139,36 @@ const fetchGeoData = async () => {
     transform: translateY(-50%);
     pointer-events: none;
     color: rgba(102, 102, 102, 1);
+}
 
+.geocoder-results-wrapper {
+    width: 100%;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #EFFFDF;
+    padding: .25rem;
+    border-radius: 8px;
+    top: 2.2rem;
+    gap: .25rem;
+}
+
+.geocoder-results-wrapper button {
+    width: 100%;
+    padding: .5rem;
+    padding-top: .75rem;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+
+    &:hover,
+    &:focus {
+        background-color: #e0fac6;
+    }
 }
 </style>
