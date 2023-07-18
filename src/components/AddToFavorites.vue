@@ -16,7 +16,9 @@ const { addLocation, checkIfExist } = savedLocationsStore
 const isFavorite = ref<Boolean>(false)
 
 onMounted(() => {
-    isFavorite.value = checkIfExist(geoPoint.value);
+    if (geoPoint.value) {
+        isFavorite.value = checkIfExist(geoPoint.value);
+    }
 });
 
 watch(locations, (newValue) => {
@@ -26,13 +28,16 @@ watch(locations, (newValue) => {
 })
 
 const handleAddToFavorites = () => {
-    const newLocation = {
-        date: new Date(),
-        geoPoint: geoPoint.value,
-    };
+    if (geoPoint.value) {
+        const newLocation = {
+            date: new Date(),
+            geoPoint: geoPoint.value,
+        };
 
-    isFavorite.value = !isFavorite.value;
-    addLocation(newLocation)
+        isFavorite.value = !isFavorite.value;
+        addLocation(newLocation)
+    }
+
 };
 
 </script>
