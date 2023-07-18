@@ -5,11 +5,11 @@ import { ref } from 'vue'
 const defaultLatLng = { lat: 50.4501, lng: 30.5234 }
 
 export const useLocationStore = defineStore('location', () => {
-  const latLng = ref<GeoPoint>(defaultLatLng)
+  const geoPoint = ref<GeoPoint>(defaultLatLng)
 
   function updateGeoPoint(newGeoPoint: GeoPoint) {
-    latLng.value = newGeoPoint
+    geoPoint.value = newGeoPoint
   }
 
-  return { latLng, updateGeoPoint }
+  return { geoPoint, updateGeoPoint }
 })

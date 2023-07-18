@@ -51,10 +51,15 @@ button {
     outline: none;
     text-decoration: none;
     white-space: nowrap;
-}
 
-button:focus {
-    outline: none;
+    &:focus {
+        outline: none;
+    }
+
+    &:disabled {
+        opacity: 50%;
+        cursor: not-allowed;
+    }
 }
 
 /* Button variants */
