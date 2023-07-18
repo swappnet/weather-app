@@ -34,7 +34,7 @@ import LanguageChange from '@/components/LanguageChange.vue'
 .content-wrapper {
   width: 100%;
   display: grid;
-  max-width: 780px;
+  max-width: 840px;
   margin: 0 auto;
 }
 

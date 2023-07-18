@@ -135,7 +135,7 @@ const handleClickOutside = (event: MouseEvent) => {
     padding-left: 2rem;
     border-radius: 8px;
     border: none;
-    background-color: #DEFFBC;
+    background-color: #c0d3fd;
     font-family: Roboto, sans-serif;
     font-weight: 500;
     font-size: 1.015rem;
@@ -145,11 +145,11 @@ const handleClickOutside = (event: MouseEvent) => {
 
     &:hover,
     &:focus {
-        background-color: #E8FFD0;
+        background-color: #d8e4ff;
     }
 
     &::placeholder {
-        color: rgba(0, 0, 0, 0.479);
+        color: rgba(44, 44, 44, 0.479);
     }
 }
 
@@ -159,7 +159,7 @@ const handleClickOutside = (event: MouseEvent) => {
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-    color: rgba(155, 155, 155, 0.575);
+    color: rgba(44, 44, 44, 0.479);
 }
 
 .geocoder-results-wrapper {
@@ -169,7 +169,7 @@ const handleClickOutside = (event: MouseEvent) => {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #EFFFDF;
+    background-color: #d8e4ff;
     padding: .25rem;
     border-radius: 8px;
     top: 2.3rem;
@@ -191,7 +191,7 @@ const handleClickOutside = (event: MouseEvent) => {
 
     &:hover,
     &:focus {
-        background-color: #e0fac6;
+        background-color: #e7eeff;
     }
 }
 </style>

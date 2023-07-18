@@ -44,7 +44,7 @@ const fetchCurrentWeather = async () => {
 
 <template>
     <section>
-        <div v-if="isLoading">Loading ...</div>
+        <div v-if="isLoading" class="skeleton" />
         <div v-else class="weather-card-wrapper">
             <div class="weather-card-image-wrapper">
                 <img alt="Weather icon" class="weather-image"
@@ -108,5 +108,16 @@ section {
 .weather-image {
     width: 100%;
     height: 100%;
+}
+
+.skeleton {
+    max-width: 11rem;
+    min-height: 8rem;
+    min-width: 11rem;
+    width: 100%;
+    height: 20rem;
+    background-color: #dbdbdb8f;
+    border-radius: 8px;
+    animation: pulse 1.3s infinite;
 }
 </style>
