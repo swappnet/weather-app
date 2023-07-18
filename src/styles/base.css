@@ -10,8 +10,7 @@
 }
 
 body {
-  font-family: Roboto;
-  color: #2c2c2c;
+  background-color: #ffffff;
 }
 
 *::-moz-selection {
@@ -27,7 +26,4 @@ body {
 *:focus-visible {
   outline: none;
   box-shadow: none;
-}
-.cursorCrosshair {
-  cursor: crosshair !important;
 }
