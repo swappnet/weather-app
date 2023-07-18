@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { reactive, ref } from 'vue';
+import { onBeforeMount, onMounted, reactive, ref } from 'vue';
 
 import LocationFinding from '@/components/LocationFinding.vue'
 import { useLocationStore } from '@/stores/useLocationStore';
@@ -28,17 +28,21 @@ const handleResultSelect = (result: GeoResponse) => {
     locationStore.updateGeoPoint({ lat, lon })
 
     geocoder.resultsOpen = false
+    geocoder.query = result.display_name
+}
+
+const handleInputClick = () => {
     geocoder.query = ''
     geocoder.results = []
 }
 
-const searchLocation = () => {
+const searchLocation = async () => {
     let timer: ReturnType<typeof setTimeout>
 
     if (geocoder.query.length >= 3) {
-        timer = setTimeout(() => {
-            fetchGeoData()
-        }, 300)
+        timer = setTimeout(async () => {
+            await fetchGeoData()
+        }, 400)
     } else if (geocoder.query.length < 3) {
         geocoder.resultsOpen = false;
         geocoder.loading = false
@@ -74,15 +78,29 @@ const fetchGeoData = async () => {
     }
 }
 
+onMounted(() => {
+    document.addEventListener('click', handleClickOutside);
+});
+
+onBeforeMount(() => {
+    document.removeEventListener('click', handleClickOutside);
+});
+
+const handleClickOutside = (event: MouseEvent) => {
+    if (resultsRef.value && !resultsRef.value.contains(event.target as Node)) {
+        geocoder.resultsOpen = false;
+    }
+};
+
 
 </script>
 
 <template>
     <div class="location-search-wrapper">
-        <div class="location-geocoder-wrapper">
+        <div class="location-geocoder-wrapper" @click="handleClickOutside">
             <font-awesome-icon icon="search" style="font-size:large;" class="geocoder-icon" />
             <input class="geocoder-input" placeholder="Search location .." title="Search location" v-model="geocoder.query"
-                @input="searchLocation()" />
+                @input="searchLocation()" @click="handleInputClick" />
 
             <div v-if="geocoder.resultsOpen && geocoder.results.length > 0" class="geocoder-results-wrapper"
                 ref="resultsRef">
@@ -112,7 +130,7 @@ const fetchGeoData = async () => {
 }
 
 .geocoder-input {
-    padding: .4rem 1rem;
+    padding: .5rem 1rem;
     padding-left: 2rem;
     border-radius: 8px;
     border: none;
@@ -136,11 +154,11 @@ const fetchGeoData = async () => {
 
 .geocoder-icon {
     position: absolute;
-    left: .25rem;
+    left: .5rem;
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-    color: rgba(102, 102, 102, 1);
+    color: rgba(155, 155, 155, 0.575);
 }
 
 .geocoder-results-wrapper {
@@ -153,7 +171,7 @@ const fetchGeoData = async () => {
     background-color: #EFFFDF;
     padding: .25rem;
     border-radius: 8px;
-    top: 2.2rem;
+    top: 2.3rem;
     gap: .25rem;
 }
 

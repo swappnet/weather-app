@@ -52,7 +52,7 @@ const handleLocationFind = async () => {
 </script>
 
 <template>
-    <Button variant="transparent" :disabled="location.loading" title="Find your location"
+    <Button variant="filled" :disabled="location.loading" title="Find your location"
         @click="handleLocationFind()"><font-awesome-icon :icon="location.loading ? 'spinner' : 'location-arrow'"
             style="font-size:x-large;" :class="location.loading && 'spin'" class="find-location-button" /></Button>
 </template>
