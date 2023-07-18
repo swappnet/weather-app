@@ -4,18 +4,53 @@ import LanguageChange from '@/components/LanguageChange.vue'
 </script>
 
 <template>
-  <div>
-    <nav>
-      <RouterLink to="/favorites">Favorites</RouterLink>
-      <RouterLink to="/">Home</RouterLink>
-    </nav>
+  <div class="main-wrapper">
+    <div class="content-wrapper">
+      <nav>
+        <RouterLink to="/favorites">Favorites</RouterLink>
+        <RouterLink to="/">Home</RouterLink>
+      </nav>
 
-    <RouterView />
+      <RouterView />
 
-    <footer>
-      <LanguageChange />
-    </footer>
+      <footer>
+        <LanguageChange />
+      </footer>
+    </div>
+
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.main-wrapper {
+  width: 100%;
+  /* max and min values are from TT */
+  max-width: 1200px;
+  min-width: 360px;
+  margin: 0 auto;
+  padding: 0 .5rem;
+}
+
+.content-wrapper {
+  width: 100%;
+  display: grid;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: .75rem 0;
+}
+
+footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: .5rem 0;
+}
+</style>
