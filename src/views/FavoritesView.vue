@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import LocationsList from '@/components/LocationsList.vue'
 </script>
 
 <template>
@@ -8,7 +8,7 @@
         <p>Maximum 5 location</p>
     </header>
     <main>
-
+        <LocationsList />
     </main>
 </template>
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import LocationSearch from '@/components/LocationSearch.vue';
+import AddToFavorites from '@/components/AddToFavorites.vue';
 </script>
 
 <template>

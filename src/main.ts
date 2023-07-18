@@ -4,12 +4,13 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faArrowLeftLong,
   faBars,
+  faBookmark,
   faLocationArrow,
   faSearch,
   faSpinner
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { PiniaVuePlugin, createPinia } from 'pinia'
+import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import App from './App.vue'
 
@@ -17,7 +18,7 @@ import router from './router'
 
 const app = createApp(App)
 
-library.add(faBars, faArrowLeftLong, faSearch, faLocationArrow, faSpinner)
+library.add(faBars, faArrowLeftLong, faSearch, faLocationArrow, faSpinner, faBookmark)
 
 app.use(createPinia())
 app.use(router)

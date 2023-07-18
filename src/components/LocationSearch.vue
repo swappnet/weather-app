@@ -28,7 +28,9 @@ const handleResultSelect = (result: GeoResponse) => {
     locationStore.updateGeoPoint({ lat, lon })
 
     geocoder.resultsOpen = false
-    geocoder.query = result.display_name
+    if (result.display_name) {
+        geocoder.query = result.display_name
+    }
 }
 
 const handleInputClick = () => {
