@@ -22,10 +22,7 @@ onMounted(() => {
 watch(locations, (newValue) => {
     if (newValue) {
         localStorage.setItem('savedLocations', JSON.stringify(newValue))
-
-        isFavorite.value = checkIfExist(geoPoint.value)
     }
-
 })
 
 const handleAddToFavorites = () => {
@@ -34,6 +31,7 @@ const handleAddToFavorites = () => {
         geoPoint: geoPoint.value,
     };
 
+    isFavorite.value = !isFavorite.value;
     addLocation(newLocation)
 };
 
@@ -41,7 +39,7 @@ const handleAddToFavorites = () => {
 
 <template>
     <button variant="transparent" @click="handleAddToFavorites"
-        :style="{ color: isFavorite && '#FFD700' }"><font-awesome-icon icon="bookmark" style="font-size:x-large;"
+        :style="{ color: isFavorite ? '#FFD700' : '#c2c2c2' }"><font-awesome-icon icon="bookmark" style="font-size:x-large;"
             title="Save location" /></button>
 </template>
 
@@ -55,7 +53,6 @@ button {
     padding: .25rem;
 
     background-color: transparent;
-    color: #7D7D7D;
 
     &:hover {
         background-color: #f7f7f7;
@@ -71,5 +68,6 @@ button {
         background-color: #fafafa;
         color: #7D7D7D;
     }
+
 }
 </style>
