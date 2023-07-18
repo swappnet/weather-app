@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import LocationSearch from '@/components/LocationSearch.vue';
 </script>
 
 <template>
@@ -13,4 +13,13 @@
     </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+}
+</style>
