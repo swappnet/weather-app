@@ -28,6 +28,8 @@ const handleResultSelect = (result: GeoResponse) => {
     locationStore.updateGeoPoint({ lat, lon })
 
     geocoder.resultsOpen = false
+    geocoder.query = ''
+    geocoder.results = []
 }
 
 const searchLocation = () => {
@@ -165,6 +167,8 @@ const fetchGeoData = async () => {
     cursor: pointer;
     font-family: Roboto, sans-serif;
     font-weight: 500;
+    color: #313131;
+    font-size: .9rem;
 
     &:hover,
     &:focus {

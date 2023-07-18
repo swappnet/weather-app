@@ -55,7 +55,6 @@ const handleLocationFind = async () => {
     <Button variant="transparent" :disabled="location.loading" title="Find your location"
         @click="handleLocationFind()"><font-awesome-icon :icon="location.loading ? 'spinner' : 'location-arrow'"
             style="font-size:x-large;" :class="location.loading && 'spin'" class="find-location-button" /></Button>
-    {{ geoPoint }}
 </template>
 
 <style scoped>
