@@ -21,7 +21,7 @@ if (savedData) {
                 {{ location.geoPoint }}
             </li>
         </ul>
-        <p v-else>
+        <p v-else class="list-not-found">
             No locations available.
         </p>
     </section>
@@ -30,5 +30,12 @@ if (savedData) {
 <style scoped>
 section {
     margin-top: 2rem;
+}
+
+.list-not-found {
+    font: optional;
+    font-family: Roboto, sans-serif;
+    color: rgba(67, 67, 67, 1);
+    font-weight: 400;
 }
 </style>

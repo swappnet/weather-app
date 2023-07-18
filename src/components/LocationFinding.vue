@@ -11,7 +11,8 @@ const location = reactive({
     loading: false,
 })
 
-const { initialLocationFounded, geoPoint } = storeToRefs(locationStore)
+const { initialLocationFounded } = storeToRefs(locationStore)
+const { updateGeoPoint } = useLocationStore()
 
 onMounted(() => {
     if (!initialLocationFounded.value) {
@@ -28,7 +29,7 @@ const handleLocationFind = async () => {
 
     navigator.geolocation.getCurrentPosition(
         (position) => {
-            locationStore.updateGeoPoint({
+            updateGeoPoint({
                 lat: position.coords.latitude,
                 lon: position.coords.longitude,
             }
@@ -38,15 +39,15 @@ const handleLocationFind = async () => {
 
         },
         (error) => {
+            updateGeoPoint({
+                lat: 50.4501,
+                lon: 30.5234,
+            })
             location.loading = false;
             throw new Error('Error getting location: ' + error.message);
         }
     );
 }
-
-
-
-
 
 </script>
 

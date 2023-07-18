@@ -11,32 +11,40 @@ const isLoading = ref<Boolean>(true)
 const weatherData = ref<any>(null);
 
 onMounted(() => {
-    fetchCurrentWeather()
+    if (geoPoint.value) {
+        fetchCurrentWeather()
+
+    }
 })
 
 watch(geoPoint, () => {
-    fetchCurrentWeather();
+    if (geoPoint.value) {
+        fetchCurrentWeather()
+    }
 });
 
 const fetchCurrentWeather = async () => {
-    const apiKey = import.meta.env.VITE_API_KEY;
-    const latitude = geoPoint.value.lat;
-    const longitude = geoPoint.value.lon;
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+    if (geoPoint.value) {
+        const apiKey = import.meta.env.VITE_API_KEY;
+        const latitude = geoPoint.value.lat;
+        const longitude = geoPoint.value.lon;
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
 
-    try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) {
-            throw new Error('Network response was not ok.');
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+
+            const data = await response.json();
+            weatherData.value = data;
+            isLoading.value = false;
+        } catch (error) {
+            isLoading.value = false;
+            throw new Error('Can not load weather right now.');
         }
-
-        const data = await response.json();
-        weatherData.value = data;
-        isLoading.value = false;
-    } catch (error) {
-        isLoading.value = false;
-        throw new Error('Can not load weather right now.');
     }
+
 };
 
 
@@ -117,7 +125,7 @@ section {
     min-width: 11rem;
     width: 100%;
     height: 20rem;
-    background-color: #dbdbdb8f;
+    background-color: #ececec6b;
     border-radius: 8px;
     animation: pulse 1.3s infinite;
 }
