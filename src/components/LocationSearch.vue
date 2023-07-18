@@ -142,6 +142,7 @@ const handleClickOutside = (event: MouseEvent) => {
     width: 100%;
     color: #313131;
     transition: all .3s;
+    height: 2.25rem;
 
     &:hover,
     &:focus {

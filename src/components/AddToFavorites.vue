@@ -51,7 +51,8 @@ button {
     transition: background-color 0.2s, color 0.2s;
     outline: none;
     padding: .25rem;
-
+    width: 1.7rem;
+    height: 2.25rem;
     background-color: transparent;
 
     &:hover {

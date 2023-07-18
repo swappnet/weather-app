@@ -59,5 +59,6 @@ const handleLocationFind = async () => {
 <style scoped>
 .find-location-button {
     width: 1.2rem;
+    height: 1.7rem;
 }
 </style>

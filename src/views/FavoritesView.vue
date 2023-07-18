@@ -14,6 +14,7 @@ import LocationsList from '@/components/LocationsList.vue'
 
 <style scoped>
 h1 {
+    font-display: optional;
     font-family: Inter, sans-serif;
     color: #434343;
     font-size: 1.5rem;
@@ -23,6 +24,7 @@ h1 {
 }
 
 p {
+    font-display: optional;
     font-family: Roboto, sans-serif;
     color: #797979;
     font-size: .9rem;

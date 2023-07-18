@@ -41,6 +41,7 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-display: optional;
     font-family: Roboto, sans-serif;
     font-weight: 500;
     display: inline-flex;

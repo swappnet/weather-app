@@ -47,7 +47,7 @@ const fetchCurrentWeather = async () => {
         <div v-if="isLoading" class="skeleton" />
         <div v-else class="weather-card-wrapper">
             <div class="weather-card-image-wrapper">
-                <img alt="Weather icon" class="weather-image"
+                <img alt="Weather icon" class="weather-image" width="100" height="100"
                     :src="`../assets/weather/${getWeatherIconName(weatherData.weather[0].id)}.svg`" />
             </div>
             <div class="weather-card-info" v-if="weatherData">
@@ -77,6 +77,7 @@ section {
 }
 
 .weather-card-info {
+    font-display: optional;
     font-family: Inter, sans-serif;
     font-weight: 500;
     display: flex;
@@ -106,8 +107,8 @@ section {
 }
 
 .weather-image {
+    height: auto;
     width: 100%;
-    height: 100%;
 }
 
 .skeleton {
