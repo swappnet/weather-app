@@ -19,7 +19,12 @@ const geocoder = reactive({
     errMsg: '',
 })
 
+onMounted(() => {
+    handleLocationFind();
+});
+
 const handleInputClick = () => {
+    geocoder.resultsOpen = !geocoder.resultsOpen;
 }
 
 const handleLocationFind = async () => {
@@ -45,11 +50,46 @@ const handleLocationFind = async () => {
 
 }
 
-onMounted(() => {
-    handleLocationFind();
-});
+const searchLocation = () => {
+    let timer: ReturnType<typeof setTimeout>
 
-const searchLocation = (query: string) => {
+    if (geocoder.query.length >= 3) {
+        timer = setTimeout(() => {
+            fetchGeoData()
+        }, 300)
+    } else if (geocoder.query.length < 3) {
+        geocoder.resultsOpen = false;
+        geocoder.loading = false
+        geocoder.results = []
+    }
+
+    return () => clearTimeout(timer)
+}
+
+const fetchGeoData = async () => {
+    try {
+        let url = `https://geocode.maps.co/search?q=${geocoder.query}`
+
+        geocoder.loading = true
+
+        const response = await fetch(url)
+
+        if (!response.ok) {
+            geocoder.errMsg = `HTTP error! Status: ${response.status}.`
+            geocoder.resultsOpen = false;
+            geocoder.loading = false
+        }
+        const data = await response.json()
+
+        if (data.length > 0) {
+            geocoder.results = data;
+            geocoder.resultsOpen = true;
+        }
+
+        geocoder.resultsOpen = false;
+    } catch (error) {
+        geocoder.errMsg = `An error occurred while searching location.`
+    }
 }
 
 
@@ -60,7 +100,7 @@ const searchLocation = (query: string) => {
         <div class="location-geocoder-wrapper">
             <font-awesome-icon icon="search" style="font-size:large;" class="geocoder-icon" />
             <input class="geocoder-input" placeholder="Search location .." title="Search location" v-model="geocoder.query"
-                @input="searchLocation(geocoder.query)" />
+                @input="searchLocation()" @click="handleInputClick" />
         </div>
         <Button variant="transparent" :disabled="location.loading" title="Find your location"
             @click="handleLocationFind()"><font-awesome-icon :icon="location.loading ? 'spinner' : 'location-arrow'"
