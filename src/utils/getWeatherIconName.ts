@@ -62,7 +62,7 @@ const getWeatherIconName = (id: string) => {
     '804': 'broken_clouds'
   }
 
-  return weatherGroups[id] || weatherGroups['200'] // Return 'unknown' if cod is not found in the weatherGroups object
+  return weatherGroups[id] || weatherGroups['200']
 }
 
 export { getWeatherIconName }
