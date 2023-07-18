@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
+
+import NavBar from '@/components/NavBar.vue'
 import LanguageChange from '@/components/LanguageChange.vue'
+
 </script>
 
 <template>
   <div class="main-wrapper">
     <div class="content-wrapper">
-      <nav>
-        <RouterLink to="/favorites">Favorites</RouterLink>
-        <RouterLink to="/">Home</RouterLink>
-      </nav>
+      <NavBar />
 
       <RouterView />
 
@@ -38,13 +38,7 @@ import LanguageChange from '@/components/LanguageChange.vue'
   margin: 0 auto;
 }
 
-nav {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: .75rem 0;
-}
+
 
 footer {
   width: 100%;

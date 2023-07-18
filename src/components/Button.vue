@@ -43,7 +43,14 @@ button {
     cursor: pointer;
     font-family: Roboto, sans-serif;
     font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .25rem;
     transition: background-color 0.2s, color 0.2s;
+    outline: none;
+    text-decoration: none;
+    white-space: nowrap;
 }
 
 button:focus {
