@@ -2,6 +2,7 @@
 import { useLocationStore } from '@/stores/useLocationStore';
 import { storeToRefs } from 'pinia';
 import { onMounted, ref, watch } from 'vue';
+import { getWeatherIconName } from '../utils/getWeatherIconName'
 
 const locationStore = useLocationStore()
 const { geoPoint } = storeToRefs(locationStore)
@@ -38,16 +39,20 @@ const fetchCurrentWeather = async () => {
     }
 };
 
+
 </script>
 
 <template>
     <section>
         <div v-if="isLoading">Loading ...</div>
-        <div v-else>
-            <div v-if="weatherData">
-                <p>{{ weatherData.name }}</p>
-                <p>{{ Math.round(parseFloat(weatherData.main.temp) - 273.15) }}°C</p>
-                <p>{{ weatherData.weather[0].description }}</p>
+        <div v-else class="weather-card-wrapper">
+            <div class="weather-card-image-wrapper">
+                <img alt="Weather icon" class="weather-image"
+                    :src="`../assets/weather/${getWeatherIconName(weatherData.weather[0].id)}.svg`" />
+            </div>
+            <div class="weather-card-info" v-if="weatherData">
+                <p class="info-temp">{{ Math.round(parseFloat(weatherData.main.temp) - 273.15) }}°C</p>
+                <p>{{ weatherData.name }}, {{ weatherData.weather[0].description }}</p>
             </div>
             <div v-else>No weather data available.</div>
         </div>
@@ -61,5 +66,47 @@ section {
     align-items: center;
     justify-content: center;
     margin-top: 6rem;
+}
+
+.weather-card-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.weather-card-info {
+    font-family: Inter, sans-serif;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #797979;
+
+}
+
+.info-temp {
+    font-size: 3.25rem;
+    color: #434343;
+    letter-spacing: -5px;
+}
+
+.weather-card-image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 11rem;
+    max-height: 11rem;
+    min-height: 8rem;
+    min-width: 8rem;
+    width: 100%;
+    height: 100%;
+}
+
+.weather-image {
+    width: 100%;
+    height: 100%;
 }
 </style>

@@ -19,7 +19,6 @@ const geocoder = reactive({
     resultsOpen: false,
     query: '',
     results: [] as GeoResponse[],
-    errMsg: '',
 })
 
 const handleResultSelect = (result: GeoResponse) => {
@@ -64,9 +63,9 @@ const fetchGeoData = async () => {
         const response = await fetch(url)
 
         if (!response.ok) {
-            geocoder.errMsg = `HTTP error! Status: ${response.status}.`
             geocoder.resultsOpen = false;
             geocoder.loading = false
+            throw new Error(`HTTP error! Status: ${response.status}.`);
         }
         const data = await response.json()
 
@@ -76,7 +75,7 @@ const fetchGeoData = async () => {
         }
 
     } catch (error) {
-        geocoder.errMsg = `An error occurred while searching location.`
+        throw new Error('An error occurred while searching location.');
     }
 }
 

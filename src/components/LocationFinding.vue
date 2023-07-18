@@ -9,7 +9,6 @@ const locationStore = useLocationStore()
 
 const location = reactive({
     loading: false,
-    errMsg: '',
 })
 
 const { initialLocationFounded, geoPoint } = storeToRefs(locationStore)
@@ -40,7 +39,7 @@ const handleLocationFind = async () => {
         },
         (error) => {
             location.loading = false;
-            location.errMsg = 'Error getting location: ' + error.message;
+            throw new Error('Error getting location: ' + error.message);
         }
     );
 }
