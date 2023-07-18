@@ -1,16 +1,9 @@
 <script setup lang="ts">
-import { useLocationStore } from '@/stores/useLocationStore'
 
-import Button from '@/components/Button.vue'
 import { reactive } from 'vue';
-import { onMounted } from 'vue';
 
-const locationStore = useLocationStore()
+import LocationFinding from '@/components/LocationFinding.vue'
 
-const location = reactive({
-    loading: false,
-    errMsg: '',
-})
 const geocoder = reactive({
     loading: false,
     resultsOpen: false,
@@ -19,35 +12,8 @@ const geocoder = reactive({
     errMsg: '',
 })
 
-onMounted(() => {
-    handleLocationFind();
-});
-
 const handleInputClick = () => {
     geocoder.resultsOpen = !geocoder.resultsOpen;
-}
-
-const handleLocationFind = async () => {
-    location.loading = true;
-
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-            locationStore.updateGeoPoint({
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-            }
-
-            )
-            location.loading = false;
-
-        },
-        (error) => {
-            location.loading = false;
-            location.errMsg = 'Error getting location: ' + error.message;
-        }
-    );
-
-
 }
 
 const searchLocation = () => {
@@ -68,6 +34,7 @@ const searchLocation = () => {
 
 const fetchGeoData = async () => {
     try {
+        // public API
         let url = `https://geocode.maps.co/search?q=${geocoder.query}`
 
         geocoder.loading = true
@@ -102,9 +69,7 @@ const fetchGeoData = async () => {
             <input class="geocoder-input" placeholder="Search location .." title="Search location" v-model="geocoder.query"
                 @input="searchLocation()" @click="handleInputClick" />
         </div>
-        <Button variant="transparent" :disabled="location.loading" title="Find your location"
-            @click="handleLocationFind()"><font-awesome-icon :icon="location.loading ? 'spinner' : 'location-arrow'"
-                style="font-size:x-large;" :class="location.loading && 'spin'" class="find-location-button" /></Button>
+        <LocationFinding />
     </div>
 </template>
 
@@ -154,24 +119,5 @@ const fetchGeoData = async () => {
     pointer-events: none;
     color: rgba(102, 102, 102, 1);
 
-}
-
-
-.find-location-button {
-    width: 1.2rem;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.spin {
-    animation: spin 1s linear infinite;
 }
 </style>
