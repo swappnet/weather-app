@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LocationsList from '@/components/LocationsList.vue'
+import LocationsList from '@/components/FavoritesList.vue'
 </script>
 
 <template>

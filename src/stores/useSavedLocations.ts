@@ -1,38 +1,54 @@
 import type { GeoPoint } from '@/types/global/GeoPoint.types'
+import { isEqualGeoPoint } from '@/utils/isEqualGeoPoint'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 export const useSavedLocationsStore = defineStore('locations', () => {
   const locations = ref<{ date: Date; geoPoint: GeoPoint }[]>([])
+
+  const loadLocationsFromLocalStorage = () => {
+    const savedLocations = localStorage.getItem('savedLocations')
+    if (savedLocations) {
+      locations.value = JSON.parse(savedLocations)
+    }
+  }
+
+  watch(locations, (newLocations) => {
+    localStorage.setItem('savedLocations', JSON.stringify(newLocations))
+  })
 
   const updateLocations = (newLocations: { date: Date; geoPoint: GeoPoint }[]) => {
     locations.value = newLocations
   }
 
   const removeLocation = (geoPointToRemove: GeoPoint) => {
-    const filteredLocations = locations.value.filter((loc) => loc.geoPoint !== geoPointToRemove)
-    updateLocations(filteredLocations)
+    const index = locations.value.findIndex((loc) =>
+      isEqualGeoPoint(loc.geoPoint, geoPointToRemove)
+    )
+    if (index !== -1) {
+      locations.value.splice(index, 1)
+    }
+
+    localStorage.setItem('savedLocations', JSON.stringify(locations.value))
   }
 
   const checkIfExist = (geoPoint: GeoPoint) => {
-    return locations.value.some((loc) => loc.geoPoint === geoPoint)
+    return locations.value.some((loc) => isEqualGeoPoint(loc.geoPoint, geoPoint))
   }
 
   const addLocation = (newLocation: { date: Date; geoPoint: GeoPoint }) => {
     if (checkIfExist(newLocation.geoPoint)) {
       removeLocation(newLocation.geoPoint)
-
-      return true
+      return
     }
 
     if (locations.value.length < 5) {
-      // Add the new location to the savedLocationsStore
       updateLocations([...locations.value, newLocation])
-      return true // Location added successfully
-    } else {
-      return false // Cannot add more than 5 locations
+      return
     }
   }
+
+  loadLocationsFromLocalStorage()
 
   return { locations, updateLocations, addLocation, checkIfExist, removeLocation }
 })

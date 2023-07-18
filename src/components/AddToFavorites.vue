@@ -19,15 +19,17 @@ onMounted(() => {
     if (geoPoint.value) {
         isFavorite.value = checkIfExist(geoPoint.value);
     }
+    watch(geoPoint, (newGeoPoint) => {
+        isFavorite.value = checkIfExist(newGeoPoint);
+    });
 });
 
-watch(locations, (newValue) => {
-    if (newValue) {
-        localStorage.setItem('savedLocations', JSON.stringify(newValue))
-    }
-})
-
 const handleAddToFavorites = () => {
+
+    if (locations.value.length > 4 && !checkIfExist(geoPoint.value)) {
+        return;
+    }
+
     if (geoPoint.value) {
         const newLocation = {
             date: new Date(),
