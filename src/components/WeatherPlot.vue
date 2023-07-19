@@ -14,7 +14,7 @@ const locationStore = useLocationStore()
 const { geoPoint } = storeToRefs(locationStore)
 
 const plotMode = ref<PlotMode>(PlotMode.Day)
-const weatherData = ref(null);
+const weatherData = ref<any | null>(null);
 
 
 const changePlotMode = async (mode: PlotMode) => {
@@ -35,11 +35,21 @@ const fetchForecast = async () => {
             if (plotMode.value === PlotMode.Day) {
                 const url = `${baseUrl}/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,alerts,daily,&units=${units}&appid=${apiKey}`;
                 const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch weather forecast.')
+                }
+
                 const data = await response.json();
                 weatherData.value = data;
             } else if (plotMode.value === PlotMode.Week) {
                 const url = `${baseUrl}/forecast?lat=${latitude}&lon=${longitude}&units=${units}&appid=${apiKey}`;
                 const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch weather forecast.')
+                }
+
                 const data = await response.json();
                 weatherData.value = data;
             }
