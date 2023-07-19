@@ -3,10 +3,12 @@ import '@/styles/base.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faArrowLeftLong,
+  faArrowRight,
   faBars,
   faBookmark,
   faEllipsisVertical,
   faLocationArrow,
+  faRemove,
   faSearch,
   faSpinner
 } from '@fortawesome/free-solid-svg-icons'
@@ -26,7 +28,9 @@ library.add(
   faLocationArrow,
   faSpinner,
   faBookmark,
-  faEllipsisVertical
+  faEllipsisVertical,
+  faArrowRight,
+  faRemove
 )
 
 app.use(createPinia())

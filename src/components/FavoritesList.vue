@@ -9,6 +9,7 @@ const savedLocationsStore = useSavedLocationsStore()
 const { locations } = storeToRefs(savedLocationsStore);
 const { updateLocations } = savedLocationsStore
 
+
 const savedData = localStorage.getItem('savedLocations')
 if (savedData) {
     updateLocations(JSON.parse(savedData))
@@ -19,7 +20,7 @@ if (savedData) {
 <template>
     <section>
         <ul v-if="locations.length">
-            <FavoriteLocationCard v-for="(location, index) in locations" :key="index" :location="location" />
+            <FavoriteLocationCard v-for="location in locations" :key="location.date.toString()" :location="location" />
         </ul>
         <p v-else class="list-not-found">
             No locations available.

@@ -45,8 +45,11 @@ const handleClickOutside = (event: MouseEvent) => {
 };
 
 const handleLocationRemove = () => {
-    if (location.geoPoint) {
+    const isConfirmed = window.confirm('Are you sure you want to delete location?')
+    if (location.geoPoint && isConfirmed) {
         removeLocation(location.geoPoint)
+    } else if (!isConfirmed) {
+        isMenuOpen.value = false;
     }
 }
 
@@ -96,8 +99,10 @@ const fetchCurrentWeather = async (geoPoint: GeoPoint) => {
             <button variant="transparent" @click="handleEditMenuOpen" class="edit-menu-button"
                 title="Edit menu"><font-awesome-icon icon="ellipsis-vertical" style="font-size:large;" /></button>
             <div v-if="isMenuOpen" class="edit-menu">
-                <button class="menu-button danger" title="Remove location" @click="handleLocationRemove">Remove</button>
-                <button class="menu-button" title="Open location" @click="handleLocationOpen">Open</button>
+                <button class="menu-button danger" title="Remove location" @click="handleLocationRemove">Remove
+                    <font-awesome-icon icon="remove" style="font-size:large;" /></button>
+                <button class="menu-button" title="Open location" @click="handleLocationOpen">Open <font-awesome-icon
+                        icon="arrow-right" style="font-size:large;" /></button>
             </div>
         </div>
     </li>
@@ -196,7 +201,7 @@ li {
 
 .edit-menu {
     position: absolute;
-    width: 5rem;
+    width: 6rem;
     padding: .25rem;
     display: flex;
     flex-direction: column;
@@ -208,6 +213,7 @@ li {
     right: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 20;
+    gap: .15rem;
 }
 
 .menu-button {
@@ -225,6 +231,10 @@ li {
     font-size: .9rem;
     font: optional;
     font-family: Roboto, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .25rem;
 
     &:hover {
         background-color: #f3f3f3;

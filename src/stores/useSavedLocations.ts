@@ -22,14 +22,13 @@ export const useSavedLocationsStore = defineStore('locations', () => {
   }
 
   const removeLocation = (geoPointToRemove: GeoPoint) => {
-    const index = locations.value.findIndex((loc) =>
-      isEqualGeoPoint(loc.geoPoint, geoPointToRemove)
+    const updatedLocations = locations.value.filter(
+      (loc) => !isEqualGeoPoint(loc.geoPoint, geoPointToRemove)
     )
-    if (index !== -1) {
-      locations.value.splice(index, 1)
-    }
 
-    localStorage.setItem('savedLocations', JSON.stringify(locations.value))
+    localStorage.setItem('savedLocations', JSON.stringify(updatedLocations))
+
+    locations.value = updatedLocations
   }
 
   const checkIfExist = (geoPoint: GeoPoint) => {

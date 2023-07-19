@@ -56,7 +56,7 @@ const getWeatherIconName = (id: string) => {
     '771': 'mist',
     '781': 'mist',
     '800': 'clear_sky',
-    '801': 'scattered_clouds',
+    '801': 'few_clouds',
     '802': 'scattered_clouds',
     '803': 'scattered_clouds',
     '804': 'scattered_clouds'
