@@ -1,28 +1,88 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import Button from '@/components/Button.vue'
+import { useLocationStore } from '@/stores/useLocationStore';
+import { storeToRefs } from 'pinia';
 
 enum PlotMode {
     Day,
     Week
 }
 
-const plotMode = ref<PlotMode>(PlotMode.Day)
+const locationStore = useLocationStore()
+const { geoPoint } = storeToRefs(locationStore)
 
-const changePlotMode = (mode: PlotMode) => {
-    plotMode.value = mode
+const plotMode = ref<PlotMode>(PlotMode.Day)
+const weatherData = ref(null);
+
+
+const changePlotMode = async (mode: PlotMode) => {
+    plotMode.value = mode;
+
+    fetchForecast()
+};
+
+const fetchForecast = async () => {
+    if (geoPoint.value) {
+        try {
+            const apiKey = import.meta.env.VITE_API_KEY;
+            const latitude = geoPoint.value.lat;
+            const longitude = geoPoint.value.lon;
+            const baseUrl = 'https://api.openweathermap.org/data/2.5';
+            const units = 'metric';
+
+            if (plotMode.value === PlotMode.Day) {
+                const url = `${baseUrl}/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,alerts,daily,&units=${units}&appid=${apiKey}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                weatherData.value = data;
+            } else if (plotMode.value === PlotMode.Week) {
+                const url = `${baseUrl}/forecast?lat=${latitude}&lon=${longitude}&units=${units}&appid=${apiKey}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                weatherData.value = data;
+            }
+        } catch (err) {
+            throw new Error('Failed to fetch weather forecast.')
+        }
+
+    }
 }
+
+onMounted(() => {
+    // Fetch initial data on component mount (hourly/day forecast by default)
+    changePlotMode(plotMode.value);
+});
 
 </script>
 
 <template>
     <section>
         <header>
-            <Button variant="plot" :disabled="plotMode === PlotMode.Day" @click="changePlotMode(PlotMode.Day)">Day</Button>
-            <Button variant="plot" :disabled="plotMode === PlotMode.Week"
+            <Button variant="plot" title="Day plot" :disabled="plotMode === PlotMode.Day"
+                @click="changePlotMode(PlotMode.Day)">Day</Button>
+            <Button variant="plot" title="Week (5 day) plot" :disabled="plotMode === PlotMode.Week"
                 @click="changePlotMode(PlotMode.Week)">Week</Button>
         </header>
+        <div v-if="weatherData">
+            <div v-if="plotMode === PlotMode.Day">
+                <!-- Display hourly/day forecast data -->
+                <ul>
+                    <li v-for="hourlyData in weatherData.hourly" :key="hourlyData.dt">
+                        {{ new Date(hourlyData.dt * 1000).toLocaleTimeString() }} - {{ hourlyData.weather[0].description }}
+                    </li>
+                </ul>
+            </div>
+            <div v-else-if="plotMode === PlotMode.Week">
+                <!-- Display weekly forecast data -->
+                <ul>
+                    <li v-for="dailyData in weatherData.daily" :key="dailyData.dt">
+                        {{ new Date(dailyData.dt * 1000).toLocaleDateString() }} - {{ dailyData.weather[0].description }}
+                    </li>
+                </ul>
+            </div>
+        </div>
     </section>
 </template>
 
