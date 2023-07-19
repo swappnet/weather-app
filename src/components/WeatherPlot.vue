@@ -1,4 +1,13 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
+enum PlotMode {
+    Day,
+    Week
+}
+
+const plotMode = ref<PlotMode>(PlotMode.Day)
+
 </script>
 
 <template>

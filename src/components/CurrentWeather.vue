@@ -83,6 +83,11 @@ section {
     justify-content: center;
     flex-direction: column;
     gap: 1rem;
+    max-width: 15rem;
+    min-height: 8rem;
+    min-width: 13rem;
+    width: 100%;
+    height: 20rem;
 }
 
 .weather-card-info {
@@ -121,9 +126,9 @@ section {
 }
 
 .skeleton {
-    max-width: 11rem;
+    max-width: 15rem;
     min-height: 8rem;
-    min-width: 11rem;
+    min-width: 13rem;
     width: 100%;
     height: 20rem;
     background-color: #ececec6b;
