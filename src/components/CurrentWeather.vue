@@ -61,6 +61,7 @@ const fetchCurrentWeather = async () => {
             <div class="weather-card-info" v-if="weatherData">
                 <p class="info-temp">{{ Math.round(parseFloat(weatherData.main.temp) - 273.15) }}°C</p>
                 <p>{{ weatherData.name }}, {{ weatherData.weather[0].description }}</p>
+                <p>{{ new Date().toLocaleString('en-GB', { hour: 'numeric', minute: 'numeric' }) }}</p>
             </div>
             <div v-else>No weather data available.</div>
         </div>
