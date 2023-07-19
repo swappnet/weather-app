@@ -5,6 +5,7 @@ import {
   faArrowLeftLong,
   faBars,
   faBookmark,
+  faEllipsisVertical,
   faLocationArrow,
   faSearch,
   faSpinner
@@ -18,7 +19,15 @@ import router from './router'
 
 const app = createApp(App)
 
-library.add(faBars, faArrowLeftLong, faSearch, faLocationArrow, faSpinner, faBookmark)
+library.add(
+  faBars,
+  faArrowLeftLong,
+  faSearch,
+  faLocationArrow,
+  faSpinner,
+  faBookmark,
+  faEllipsisVertical
+)
 
 app.use(createPinia())
 app.use(router)

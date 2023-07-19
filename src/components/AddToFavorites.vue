@@ -18,15 +18,17 @@ const isFavorite = ref<Boolean>(false)
 onMounted(() => {
     if (geoPoint.value) {
         isFavorite.value = checkIfExist(geoPoint.value);
-
+    }
+    if (geoPoint) {
         watch(geoPoint, (newGeoPoint) => {
             if (newGeoPoint) {
                 isFavorite.value = checkIfExist(newGeoPoint);
             }
         });
     }
-
 });
+
+
 
 const handleAddToFavorites = () => {
     if (!geoPoint.value) {
@@ -52,9 +54,8 @@ const handleAddToFavorites = () => {
 </script>
 
 <template>
-    <button variant="transparent" @click="handleAddToFavorites"
-        :style="{ color: isFavorite ? '#FFD700' : '#c2c2c2' }"><font-awesome-icon icon="bookmark" style="font-size:x-large;"
-            title="Save location" /></button>
+    <button variant="transparent" @click="handleAddToFavorites" :style="{ color: isFavorite ? '#FFD700' : '#c2c2c2' }"
+        title="Save location"><font-awesome-icon icon="bookmark" style="font-size:x-large;" /></button>
 </template>
 
 <style scoped>
