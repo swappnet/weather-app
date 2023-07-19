@@ -2,11 +2,11 @@
 import { useLocationStore } from '@/stores/useLocationStore';
 import { useSavedLocationsStore } from '@/stores/useSavedLocations';
 
+import { useControlsStore } from '@/stores/useControlsStore';
+import { Languages } from '@/types/global/Languages.types';
 import { storeToRefs } from 'pinia';
 import { onMounted, ref, watch } from 'vue';
 import Button from './Button.vue';
-import { useControlsStore } from '@/stores/useControlsStore';
-import { Languages } from '@/types/global/Languages.types';
 
 const savedLocationsStore = useSavedLocationsStore()
 const locationStore = useLocationStore()

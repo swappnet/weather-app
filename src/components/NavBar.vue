@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-import Button from '@/components/Button.vue'
-import LanguageChange from './LanguageChange.vue';
+import Button from '@/components/Button.vue';
 import { useControlsStore } from '@/stores/useControlsStore';
-import { storeToRefs } from 'pinia';
 import { Languages } from '@/types/global/Languages.types';
+import { storeToRefs } from 'pinia';
+import LanguageChange from './LanguageChange.vue';
 
 const controlsStore = useControlsStore()
 const { language } = storeToRefs(controlsStore)

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
 
-import Button from '@/components/Button.vue'
-import { useLocationStore } from '@/stores/useLocationStore';
-import { storeToRefs } from 'pinia';
+import Button from '@/components/Button.vue';
 import { useControlsStore } from '@/stores/useControlsStore';
+import { useLocationStore } from '@/stores/useLocationStore';
 import { Languages } from '@/types/global/Languages.types';
 import { getWeatherIconName } from '@/utils/getWeatherIconName';
+import { storeToRefs } from 'pinia';
 
 enum PlotMode {
     Day,

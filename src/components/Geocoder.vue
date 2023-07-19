@@ -1,10 +1,10 @@
 <script setup lang="ts">
 
-import { onBeforeMount, onMounted, reactive, ref } from 'vue';
-import { useLocationStore } from '@/stores/useLocationStore';
 import { useControlsStore } from '@/stores/useControlsStore';
-import { storeToRefs } from 'pinia';
+import { useLocationStore } from '@/stores/useLocationStore';
 import { Languages } from '@/types/global/Languages.types';
+import { storeToRefs } from 'pinia';
+import { onBeforeMount, onMounted, reactive, ref } from 'vue';
 
 interface GeoResponse {
     lat: number

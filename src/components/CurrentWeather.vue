@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { useControlsStore } from '@/stores/useControlsStore';
 import { useLocationStore } from '@/stores/useLocationStore';
+import { Languages } from '@/types/global/Languages.types';
 import { storeToRefs } from 'pinia';
 import { onMounted, ref, watch } from 'vue';
-import { getWeatherIconName } from '../utils/getWeatherIconName'
-import { useControlsStore } from '@/stores/useControlsStore';
-import { Languages } from '@/types/global/Languages.types';
+import { getWeatherIconName } from '../utils/getWeatherIconName';
 
 const locationStore = useLocationStore()
 const { geoPoint } = storeToRefs(locationStore)

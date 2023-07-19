@@ -3,7 +3,7 @@
 import { useSavedLocationsStore } from '@/stores/useSavedLocations';
 import { storeToRefs } from 'pinia';
 
-import FavoriteLocationCard from '@/components/FavoriteLocationCard.vue'
+import FavoriteLocationCard from '@/components/FavoriteLocationCard.vue';
 import { useControlsStore } from '@/stores/useControlsStore';
 import { Languages } from '@/types/global/Languages.types';
 
