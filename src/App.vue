@@ -2,8 +2,6 @@
 import { RouterView } from 'vue-router'
 
 import NavBar from '@/components/NavBar.vue'
-import LanguageChange from '@/components/LanguageChange.vue'
-
 </script>
 
 <template>
@@ -12,10 +10,6 @@ import LanguageChange from '@/components/LanguageChange.vue'
       <NavBar />
 
       <RouterView />
-
-      <footer>
-        <LanguageChange />
-      </footer>
     </div>
 
   </div>

@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import router from '@/router';
+import { useControlsStore } from '@/stores/useControlsStore';
 import { useLocationStore } from '@/stores/useLocationStore';
 import { useSavedLocationsStore } from '@/stores/useSavedLocations';
 import { type GeoPoint } from '@/types/global/GeoPoint.types';
+import { Languages } from '@/types/global/Languages.types';
 import { getWeatherIconName } from '@/utils/getWeatherIconName';
+import { storeToRefs } from 'pinia';
 import { onBeforeMount, onMounted, ref } from 'vue';
 
 type CardProps = {
@@ -16,8 +19,12 @@ type CardProps = {
 const editMenuRef = ref<HTMLDivElement>()
 const { location } = defineProps<CardProps>()
 
+
 const { removeLocation } = useSavedLocationsStore()
 const { updateGeoPoint } = useLocationStore()
+const controlsStore = useControlsStore()
+const { language } = storeToRefs(controlsStore)
+
 
 const isLoading = ref<Boolean>(true)
 const isMenuOpen = ref<Boolean>(false)
@@ -99,10 +106,14 @@ const fetchCurrentWeather = async (geoPoint: GeoPoint) => {
             <button variant="transparent" @click="handleEditMenuOpen" class="edit-menu-button"
                 title="Edit menu"><font-awesome-icon icon="ellipsis-vertical" style="font-size:large;" /></button>
             <div v-if="isMenuOpen" class="edit-menu">
-                <button class="menu-button danger" title="Remove location" @click="handleLocationRemove">Remove
+                <button class="menu-button danger" title="Remove location" @click="handleLocationRemove">{{ language ===
+                    Languages.english ? 'Remove' : language ===
+                    Languages.ukrainian && "Видалити" }}
                     <font-awesome-icon icon="remove" style="font-size:large;" /></button>
-                <button class="menu-button" title="Open location" @click="handleLocationOpen">Open <font-awesome-icon
-                        icon="arrow-right" style="font-size:large;" /></button>
+                <button class="menu-button" title="Open location" @click="handleLocationOpen">{{ language ===
+                    Languages.english ? 'Open' : language ===
+                    Languages.ukrainian && "Відкрити" }}<font-awesome-icon icon="arrow-right"
+                        style="font-size:large;" /></button>
             </div>
         </div>
     </li>
@@ -201,7 +212,7 @@ li {
 
 .edit-menu {
     position: absolute;
-    width: 6rem;
+    width: 7rem;
     padding: .25rem;
     display: flex;
     flex-direction: column;

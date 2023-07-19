@@ -4,6 +4,8 @@ import { onMounted, ref } from 'vue';
 import Button from '@/components/Button.vue'
 import { useLocationStore } from '@/stores/useLocationStore';
 import { storeToRefs } from 'pinia';
+import { useControlsStore } from '@/stores/useControlsStore';
+import { Languages } from '@/types/global/Languages.types';
 
 enum PlotMode {
     Day,
@@ -12,6 +14,8 @@ enum PlotMode {
 
 const locationStore = useLocationStore()
 const { geoPoint } = storeToRefs(locationStore)
+const controlsStore = useControlsStore()
+const { language } = storeToRefs(controlsStore)
 
 const plotMode = ref<PlotMode>(PlotMode.Day)
 const weatherData = ref<any | null>(null);
@@ -71,9 +75,13 @@ onMounted(() => {
     <section>
         <header>
             <Button variant="plot" title="Day plot" :disabled="plotMode === PlotMode.Day"
-                @click="changePlotMode(PlotMode.Day)">Day</Button>
+                @click="changePlotMode(PlotMode.Day)">{{ language ===
+                    Languages.english ? 'Day' : language ===
+                    Languages.ukrainian && "День" }}</Button>
             <Button variant="plot" title="Week (5 day) plot" :disabled="plotMode === PlotMode.Week"
-                @click="changePlotMode(PlotMode.Week)">Week</Button>
+                @click="changePlotMode(PlotMode.Week)">{{ language ===
+                    Languages.english ? 'Week' : language ===
+                    Languages.ukrainian && "Тиждень" }}</Button>
         </header>
         <div v-if="weatherData">
             <div v-if="plotMode === PlotMode.Day">

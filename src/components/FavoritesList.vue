@@ -4,6 +4,8 @@ import { useSavedLocationsStore } from '@/stores/useSavedLocations';
 import { storeToRefs } from 'pinia';
 
 import FavoriteLocationCard from '@/components/FavoriteLocationCard.vue'
+import { useControlsStore } from '@/stores/useControlsStore';
+import { Languages } from '@/types/global/Languages.types';
 
 const savedLocationsStore = useSavedLocationsStore()
 const { locations } = storeToRefs(savedLocationsStore);
@@ -15,6 +17,9 @@ if (savedData) {
     updateLocations(JSON.parse(savedData))
 }
 
+const controlsStore = useControlsStore()
+const { language } = storeToRefs(controlsStore)
+
 </script>
 
 <template>
@@ -23,7 +28,8 @@ if (savedData) {
             <FavoriteLocationCard v-for="location in locations" :key="location.date.toString()" :location="location" />
         </ul>
         <p v-else class="list-not-found">
-            No locations available.
+            {{ language === Languages.english ? 'No locations available.' : language ===
+                Languages.ukrainian && "Немає доступних локацій." }}
         </p>
     </section>
 </template>
