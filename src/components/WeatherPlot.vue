@@ -188,7 +188,7 @@ header {
 }
 
 .plot-list-item {
-    width: 6rem;
+    width: 4rem;
     height: 7rem;
     display: flex;
     flex-direction: column;
@@ -224,7 +224,8 @@ header {
 }
 
 .skeleton {
-    width: 6rem;
+    min-width: 4rem;
+    width: 4rem;
     height: 7rem;
     background: #e9e9e9;
     border-radius: 8px;
