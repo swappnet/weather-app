@@ -25,4 +25,8 @@ header {
     justify-content: space-between;
     gap: .5rem;
 }
+
+main {
+    width: 100%;
+}
 </style>

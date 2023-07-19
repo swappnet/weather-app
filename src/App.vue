@@ -23,11 +23,13 @@ import NavBar from '@/components/NavBar.vue'
   min-width: 360px;
   margin: 0 auto;
   padding: 0 .5rem;
+  margin-bottom: 3rem;
 }
 
 .content-wrapper {
   width: 100%;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   max-width: 840px;
   margin: 0 auto;
 }
