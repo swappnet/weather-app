@@ -28,8 +28,6 @@ onMounted(() => {
     }
 });
 
-
-
 const handleAddToFavorites = () => {
     if (!geoPoint.value) {
         return

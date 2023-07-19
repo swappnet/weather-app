@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import router from '@/router';
+import { useLocationStore } from '@/stores/useLocationStore';
 import { useSavedLocationsStore } from '@/stores/useSavedLocations';
-import { GeoPoint } from '@/types/global/GeoPoint.types';
+import { type GeoPoint } from '@/types/global/GeoPoint.types';
 import { getWeatherIconName } from '@/utils/getWeatherIconName';
-import { nextTick, onBeforeMount, onMounted, ref } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
 
 type CardProps = {
     location: {
@@ -15,6 +17,7 @@ const editMenuRef = ref<HTMLDivElement>()
 const { location } = defineProps<CardProps>()
 
 const { removeLocation } = useSavedLocationsStore()
+const { updateGeoPoint } = useLocationStore()
 
 const isLoading = ref<Boolean>(true)
 const isMenuOpen = ref<Boolean>(false)
@@ -47,6 +50,13 @@ const handleLocationRemove = () => {
     }
 }
 
+const handleLocationOpen = () => {
+    if (location.geoPoint) {
+        updateGeoPoint(location.geoPoint)
+        router.push('/')
+    }
+}
+
 const fetchCurrentWeather = async (geoPoint: GeoPoint) => {
     if (geoPoint) {
         const apiKey = import.meta.env.VITE_API_KEY;
@@ -71,10 +81,6 @@ const fetchCurrentWeather = async (geoPoint: GeoPoint) => {
 
 };
 
-
-
-
-
 </script>
 
 <template>
@@ -86,11 +92,13 @@ const fetchCurrentWeather = async (geoPoint: GeoPoint) => {
         <div class="card-info-wrapper">
             <p class="info-temp">{{ Math.round(parseFloat(weatherData.main.temp) - 273.15) }}°C</p>
         </div>
-        <div class="card-edit-wrapper" ref="editMenuRef"><button variant="transparent" @click="handleEditMenuOpen"
-                class="edit-menu-button" title="Edit menu"><font-awesome-icon icon="ellipsis-vertical"
-                    style="font-size:large;" /></button>
-            <div v-if="isMenuOpen" class="edit-menu"><button class="menu-button danger" title="Remove location"
-                    @click="handleLocationRemove">Remove</button></div>
+        <div class="card-edit-wrapper" ref="editMenuRef">
+            <button variant="transparent" @click="handleEditMenuOpen" class="edit-menu-button"
+                title="Edit menu"><font-awesome-icon icon="ellipsis-vertical" style="font-size:large;" /></button>
+            <div v-if="isMenuOpen" class="edit-menu">
+                <button class="menu-button danger" title="Remove location" @click="handleLocationRemove">Remove</button>
+                <button class="menu-button" title="Open location" @click="handleLocationOpen">Open</button>
+            </div>
         </div>
     </li>
 </template>
@@ -199,6 +207,7 @@ li {
     top: 2.5rem;
     right: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 20;
 }
 
 .menu-button {
