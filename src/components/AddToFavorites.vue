@@ -34,6 +34,7 @@ const handleAddToFavorites = () => {
     }
 
     if (locations.value.length > 4 && !checkIfExist(geoPoint.value)) {
+        window.alert("You cannot add more than 5 locations.");
         return;
     }
 

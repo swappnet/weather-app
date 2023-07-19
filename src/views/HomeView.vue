@@ -2,6 +2,7 @@
 import LocationSearch from '@/components/LocationSearch.vue';
 import AddToFavorites from '@/components/AddToFavorites.vue';
 import CurrentWeather from '@/components/CurrentWeather.vue'
+import WeatherPlot from '@/components/WeatherPlot.vue'
 </script>
 
 <template>

@@ -30,8 +30,8 @@ const handleLocationFind = async () => {
     navigator.geolocation.getCurrentPosition(
         (position) => {
             updateGeoPoint({
-                lat: position.coords.latitude,
-                lon: position.coords.longitude,
+                lat: Number(position.coords.latitude.toFixed(2)),
+                lon: Number(position.coords.longitude.toFixed(2)),
             }
 
             )
