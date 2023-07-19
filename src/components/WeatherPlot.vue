@@ -188,7 +188,8 @@ header {
 }
 
 .plot-list-item {
-    width: 3rem;
+    width: 6rem;
+    height: 7rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -223,9 +224,9 @@ header {
 }
 
 .skeleton {
-    width: 3rem;
-    height: 5rem;
-    background: #fafafa;
+    width: 6rem;
+    height: 7rem;
+    background: #e9e9e9;
     border-radius: 8px;
     animation: pulse 1.3s infinite;
 }
