@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
 
 export const useControlsStore = defineStore('controls', () => {
-  const language = ref<Languages>(Languages.ukrainian)
+  const language = ref<Languages>(Languages.english)
 
   const loadLanguageFromLocalStorage = () => {
     const savedLocations = localStorage.getItem('savedLanguage')

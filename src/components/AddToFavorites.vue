@@ -59,7 +59,7 @@ const handleAddToFavorites = () => {
 <template>
     <button variant="transparent" @click="handleAddToFavorites" :style="{ color: isFavorite ? '#FFD700' : '#c2c2c2' }"
         :title="language ===
-            Languages.english ? 'SaveLocation' : 'Зберегти локацію'"><font-awesome-icon icon="bookmark"
+            Languages.english ? 'Save location' : 'Зберегти локацію'"><font-awesome-icon icon="bookmark"
             style="font-size:x-large;" /></button>
 </template>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 import Button from '@/components/Button.vue'
 import { useLocationStore } from '@/stores/useLocationStore';
@@ -18,13 +18,33 @@ const controlsStore = useControlsStore()
 const { language } = storeToRefs(controlsStore)
 
 const plotMode = ref<PlotMode>(PlotMode.Day)
-const weatherData = ref<any | null>(null);
 
+const weatherData = ref<any | null>(null);
+const weekData = ref<any | null>(null);
+const hourlyData = ref<any | null>(null);
+
+onMounted(() => {
+    if (geoPoint.value) {
+        fetchForecast();
+    }
+});
+
+watch(geoPoint, () => {
+    if (geoPoint.value) {
+        fetchForecast()
+    }
+});
+
+const fiveDayData = computed(() => {
+    if (weekData.value) {
+        return weekData.value.slice(0, 5);
+    } else {
+        return [];
+    }
+});
 
 const changePlotMode = async (mode: PlotMode) => {
     plotMode.value = mode;
-
-    fetchForecast()
 };
 
 const fetchForecast = async () => {
@@ -34,41 +54,28 @@ const fetchForecast = async () => {
             const latitude = geoPoint.value.lat;
             const longitude = geoPoint.value.lon;
             const baseUrl = 'https://api.openweathermap.org/data/2.5';
-            const units = 'metric';
 
-            if (plotMode.value === PlotMode.Day) {
-                const url = `${baseUrl}/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,alerts,daily,&units=${units}&appid=${apiKey}`;
-                const response = await fetch(url);
+            const url = `${baseUrl}/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+            const response = await fetch(url);
 
-                if (!response.ok) {
-                    throw new Error('Failed to fetch weather forecast.')
-                }
-
-                const data = await response.json();
-                weatherData.value = data;
-            } else if (plotMode.value === PlotMode.Week) {
-                const url = `${baseUrl}/forecast?lat=${latitude}&lon=${longitude}&units=${units}&appid=${apiKey}`;
-                const response = await fetch(url);
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch weather forecast.')
-                }
-
-                const data = await response.json();
-                weatherData.value = data;
+            if (!response.ok) {
+                throw new Error('Failed to fetch weather forecast.')
             }
+
+            const data = await response.json();
+            weatherData.value = data
+
+            const fiveDayData = data.list.filter((item: any) => item.dt_txt.includes('12:00:00'));
+            const nearHoursData = data.list.slice(0, 10);
+
+            hourlyData.value = nearHoursData
+            weekData.value = fiveDayData;
         } catch (err) {
             throw new Error('Failed to fetch weather forecast.')
         }
 
     }
 }
-
-onMounted(() => {
-    // Fetch initial data on component mount (hourly/day forecast by default)
-    changePlotMode(plotMode.value);
-});
-
 </script>
 
 <template>
@@ -83,18 +90,36 @@ onMounted(() => {
         </header>
         <div v-if="weatherData">
             <div v-if="plotMode === PlotMode.Day">
-                <!-- Display hourly/day forecast data -->
                 <ul>
-                    <li v-for="hourlyData in weatherData.hourly" :key="hourlyData.dt">
-                        {{ new Date(hourlyData.dt * 1000).toLocaleTimeString() }} - {{ hourlyData.weather[0].description }}
+                    <li v-for="data in hourlyData" :key="data.dt">
+                        <p>{{ data.weather[0].id }}</p>
+                        <p>{{ Math.round(parseFloat(data.main.temp) - 273.15) }}°C</p>
+                        <p>
+                            {{ new Date(data.dt * 1000).toLocaleString('en-GB', {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                            }) }}
+                        </p>
+                        <p>
+                            {{ new Date(data.dt * 1000).toLocaleString('en-GB', {
+                                month: 'short',
+                                day: '2-digit'
+                            }) }}
+                        </p>
                     </li>
                 </ul>
             </div>
             <div v-else-if="plotMode === PlotMode.Week">
-                <!-- Display weekly forecast data -->
                 <ul>
-                    <li v-for="dailyData in weatherData.daily" :key="dailyData.dt">
-                        {{ new Date(dailyData.dt * 1000).toLocaleDateString() }} - {{ dailyData.weather[0].description }}
+                    <li v-for="data in fiveDayData" :key="data.dt">
+                        <p>{{ data.weather[0].id }}</p>
+                        <p>{{ Math.round(parseFloat(data.main.temp) - 273.15) }}°C</p>
+                        <p>
+                            {{ new Date(data.dt * 1000).toLocaleString('en-GB', {
+                                month: 'short',
+                                day: '2-digit'
+                            }) }}
+                        </p>
                     </li>
                 </ul>
             </div>
@@ -122,5 +147,10 @@ header {
     justify-content: flex-start;
     gap: .75rem;
     margin-bottom: 1.5rem;
+}
+
+ul {
+    display: flex;
+    gap: 3rem;
 }
 </style>
