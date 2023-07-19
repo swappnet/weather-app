@@ -18,13 +18,20 @@ const isFavorite = ref<Boolean>(false)
 onMounted(() => {
     if (geoPoint.value) {
         isFavorite.value = checkIfExist(geoPoint.value);
+
+        watch(geoPoint, (newGeoPoint) => {
+            if (newGeoPoint) {
+                isFavorite.value = checkIfExist(newGeoPoint);
+            }
+        });
     }
-    watch(geoPoint, (newGeoPoint) => {
-        isFavorite.value = checkIfExist(newGeoPoint);
-    });
+
 });
 
 const handleAddToFavorites = () => {
+    if (!geoPoint.value) {
+        return
+    }
 
     if (locations.value.length > 4 && !checkIfExist(geoPoint.value)) {
         return;
