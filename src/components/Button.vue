@@ -2,7 +2,7 @@
 import { computed, toRefs } from 'vue';
 
 interface ButtonProps {
-    variant: 'transparent' | 'filled';
+    variant: 'transparent' | 'filled' | 'plot';
     size?: 'small' | 'medium' | 'large';
 }
 
@@ -16,6 +16,7 @@ const buttonClass = computed(() => {
     return {
         'transparent': variant.value === 'transparent',
         'filled': variant.value === 'filled',
+        'plot': variant.value === 'plot'
     };
 });
 
@@ -81,6 +82,34 @@ button {
     &:active {
         background-color: #fafafa;
         color: #7D7D7D;
+    }
+}
+
+.plot {
+    background-color: #e0e0e0;
+    color: #7D7D7D;
+
+    &:hover {
+        background-color: #e7e7e7;
+        color: #8f8f8f;
+    }
+
+    &:focus {
+        background-color: #e7e7e7;
+        color: #8f8f8f;
+    }
+
+    &:active {
+        background-color: #e0e0e0;
+    }
+
+    &:disabled {
+        background-color: transparent;
+
+        &:hover,
+        &:focus {
+            background-color: transparent;
+        }
     }
 }
 
