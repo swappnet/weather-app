@@ -5,6 +5,8 @@ import { useSavedLocationsStore } from '@/stores/useSavedLocations';
 import { storeToRefs } from 'pinia';
 import { onMounted, ref, watch } from 'vue';
 import Button from './Button.vue';
+import { useControlsStore } from '@/stores/useControlsStore';
+import { Languages } from '@/types/global/Languages.types';
 
 const savedLocationsStore = useSavedLocationsStore()
 const locationStore = useLocationStore()
@@ -12,6 +14,8 @@ const locationStore = useLocationStore()
 const { geoPoint } = storeToRefs(locationStore)
 const { locations } = storeToRefs(savedLocationsStore);
 const { addLocation, checkIfExist } = savedLocationsStore
+const controlsStore = useControlsStore()
+const { language } = storeToRefs(controlsStore)
 
 const isFavorite = ref<Boolean>(false)
 
@@ -54,7 +58,9 @@ const handleAddToFavorites = () => {
 
 <template>
     <button variant="transparent" @click="handleAddToFavorites" :style="{ color: isFavorite ? '#FFD700' : '#c2c2c2' }"
-        title="Save location"><font-awesome-icon icon="bookmark" style="font-size:x-large;" /></button>
+        :title="language ===
+            Languages.english ? 'SaveLocation' : 'Зберегти локацію'"><font-awesome-icon icon="bookmark"
+            style="font-size:x-large;" /></button>
 </template>
 
 <style scoped>

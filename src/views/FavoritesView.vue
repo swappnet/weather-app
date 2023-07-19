@@ -10,10 +10,8 @@ const { language } = storeToRefs(controlsStore)
 
 <template>
     <header>
-        <h1>{{ language === Languages.english ? 'Saved locations' : language ===
-            Languages.ukrainian && "Збережені локації" }}</h1>
-        <p>{{ language === Languages.english ? 'Maximum 5 location' : language ===
-            Languages.ukrainian && "Максимально 5 локацій" }}</p>
+        <h1>{{ language === Languages.english ? 'Saved locations' : "Збережені локації" }}</h1>
+        <p>{{ language === Languages.english ? 'Maximum 5 location' : "Максимально 5 локацій" }}</p>
     </header>
     <main>
         <LocationsList />

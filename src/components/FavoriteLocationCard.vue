@@ -106,13 +106,13 @@ const fetchCurrentWeather = async (geoPoint: GeoPoint) => {
             <button variant="transparent" @click="handleEditMenuOpen" class="edit-menu-button"
                 title="Edit menu"><font-awesome-icon icon="ellipsis-vertical" style="font-size:large;" /></button>
             <div v-if="isMenuOpen" class="edit-menu">
-                <button class="menu-button danger" title="Remove location" @click="handleLocationRemove">{{ language ===
-                    Languages.english ? 'Remove' : language ===
-                    Languages.ukrainian && "Видалити" }}
+                <button class="menu-button danger" :title="language ===
+                    Languages.english ? 'Remove' : 'Видалити'" @click="handleLocationRemove">{{ language ===
+        Languages.english ? 'Remove' : "Видалити" }}
                     <font-awesome-icon icon="remove" style="font-size:large;" /></button>
-                <button class="menu-button" title="Open location" @click="handleLocationOpen">{{ language ===
-                    Languages.english ? 'Open' : language ===
-                    Languages.ukrainian && "Відкрити" }}<font-awesome-icon icon="arrow-right"
+                <button class="menu-button" :title="language ===
+                    Languages.english ? 'Open' : 'Відкрити'" @click="handleLocationOpen">{{ language ===
+        Languages.english ? 'Open' : "Відкрити" }}<font-awesome-icon icon="arrow-right"
                         style="font-size:large;" /></button>
             </div>
         </div>

@@ -28,8 +28,7 @@ const { language } = storeToRefs(controlsStore)
             <FavoriteLocationCard v-for="location in locations" :key="location.date.toString()" :location="location" />
         </ul>
         <p v-else class="list-not-found">
-            {{ language === Languages.english ? 'No locations available.' : language ===
-                Languages.ukrainian && "Немає доступних локацій." }}
+            {{ language === Languages.english ? 'No locations available.' : "Немає доступних локацій." }}
         </p>
     </section>
 </template>

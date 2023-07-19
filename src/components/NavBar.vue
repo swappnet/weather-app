@@ -19,10 +19,11 @@ const path = computed(() => route.path)
 <template>
     <nav>
         <router-link :to="path === '/' ? '/favorites' : '/'" class="nav-link">
-            <Button variant="transparent" size="medium" :title="path === '/' ? 'Favorites' : 'Home'">
+            <Button variant="transparent" size="medium"
+                :title="path === '/' ? language === Languages.english ? 'Favorites' : 'Збережені' : language === Languages.english ? 'Home' : 'Головна'">
                 <font-awesome-icon :icon="path === '/' ? 'bars' : 'arrow-left-long'" style="font-size:x-large;" />
-                <span v-if="path === '/favorites'">{{ language === Languages.english ? 'Back to Home' : language ===
-                    Languages.ukrainian && "Назад на Головну" }}</span>
+                <span v-if="path === '/favorites'">{{ language === Languages.english ? 'Back to Home' : "Назад на Головну"
+                }}</span>
             </Button>
         </router-link>
         <LanguageChange />

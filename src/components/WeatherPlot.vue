@@ -74,14 +74,12 @@ onMounted(() => {
 <template>
     <section>
         <header>
-            <Button variant="plot" title="Day plot" :disabled="plotMode === PlotMode.Day"
-                @click="changePlotMode(PlotMode.Day)">{{ language ===
-                    Languages.english ? 'Day' : language ===
-                    Languages.ukrainian && "День" }}</Button>
-            <Button variant="plot" title="Week (5 day) plot" :disabled="plotMode === PlotMode.Week"
-                @click="changePlotMode(PlotMode.Week)">{{ language ===
-                    Languages.english ? 'Week' : language ===
-                    Languages.ukrainian && "Тиждень" }}</Button>
+            <Button variant="plot" :title="language === Languages.english ? 'Day' : 'День'"
+                :disabled="plotMode === PlotMode.Day" @click="changePlotMode(PlotMode.Day)">{{ language ===
+                    Languages.english ? 'Day' : "День" }}</Button>
+            <Button variant="plot" :title="language === Languages.english ? 'Week' : 'Тиждень'"
+                :disabled="plotMode === PlotMode.Week" @click="changePlotMode(PlotMode.Week)">{{ language ===
+                    Languages.english ? 'Week' : "Тиждень" }}</Button>
         </header>
         <div v-if="weatherData">
             <div v-if="plotMode === PlotMode.Day">
