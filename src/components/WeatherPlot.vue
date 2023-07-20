@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 import Button from '@/components/Button.vue';
 import { useControlsStore } from '@/stores/useControlsStore';
 import { useLocationStore } from '@/stores/useLocationStore';
 import { Languages } from '@/types/global/Languages.types';
+import { convertTemperature } from '@/utils/convertTemperature';
 import { getWeatherIconName } from '@/utils/getWeatherIconName';
 import { storeToRefs } from 'pinia';
 
@@ -37,14 +38,6 @@ watch(geoPoint, () => {
     }
 });
 
-const fiveDayData = computed(() => {
-    if (weekData.value) {
-        return weekData.value.slice(0, 5);
-    } else {
-        return [];
-    }
-});
-
 const changePlotMode = async (mode: PlotMode) => {
     plotMode.value = mode;
 };
@@ -67,11 +60,11 @@ const fetchForecast = async () => {
             const data = await response.json();
             weatherData.value = data
 
-            const fiveDayData = data.list.filter((item: any) => item.dt_txt.includes('12:00:00'));
+            const nearFiveDaysData = data.list.filter((item: any) => item.dt_txt.includes('12:00:00'));
             const nearHoursData = data.list.slice(0, 10);
 
             hourlyData.value = nearHoursData
-            weekData.value = fiveDayData;
+            weekData.value = nearFiveDaysData.slice(0, 5);
             isLoading.value = false;
         } catch (err) {
             isLoading.value = false;
@@ -103,7 +96,7 @@ const fetchForecast = async () => {
                     <li v-for="data in hourlyData" :key="data.dt" class="plot-list-item">
                         <img alt="Weather icon" width="30" height="30" class="plot-icon"
                             :src="`../assets/weather/${getWeatherIconName(data.weather[0].id)}.svg`" />
-                        <p class="plot-temp">{{ Math.round(parseFloat(data.main.temp) - 273.15) }}°C</p>
+                        <p class="plot-temp">{{ convertTemperature(data.main.temp) }}°C</p>
                         <p class="plot-date">
                             {{ new Date(data.dt * 1000).toLocaleString('en-GB', {
                                 hour: '2-digit',
@@ -123,10 +116,12 @@ const fetchForecast = async () => {
             </div>
             <div v-else-if="plotMode === PlotMode.Week">
                 <ul class="plot-list">
-                    <li v-for="data in fiveDayData" :key="data.dt" class="plot-list-item">
+                    <li v-for="data in weekData" :key="data.dt" class="plot-list-item">
                         <img alt="Weather icon" width="30" height="30"
                             :src="`../assets/weather/${getWeatherIconName(data.weather[0].id)}.svg`" />
-                        <p class="plot-temp">{{ Math.round(parseFloat(data.main.temp) - 273.15) }}°C</p>
+                        <p class="plot-temp">{{ convertTemperature(data.main.temp) }}°C</p>
+                        <p class="plot-temp-detailed">H:{{ convertTemperature(data.main.temp_max) }} L:{{
+                            convertTemperature(data.main.temp_min) }}</p>
                         <p class="plot-date">
                             {{ new Date(data.dt * 1000).toLocaleString('en-GB', {
                                 month: 'short',
@@ -158,8 +153,6 @@ div {
     width: 100%;
 }
 
-
-
 header {
     width: 100%;
     display: flex;
@@ -178,7 +171,8 @@ header {
     align-items: center;
     justify-content: center;
     gap: 1.5rem;
-    overflow: auto;
+    overflow-y: hidden;
+    overflow-x: scroll;
     display: flex;
     padding-bottom: 1rem;
 }
@@ -205,6 +199,13 @@ header {
     font-weight: 600;
     font-size: 1rem;
     margin-top: .75rem;
+}
+
+.plot-temp-detailed {
+    color: #6b6b6b;
+    font-size: .85rem;
+    letter-spacing: -1px;
+    white-space: nowrap;
 }
 
 .plot-date {

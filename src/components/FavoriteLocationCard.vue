@@ -5,6 +5,7 @@ import { useLocationStore } from '@/stores/useLocationStore';
 import { useSavedLocationsStore } from '@/stores/useSavedLocations';
 import { type GeoPoint } from '@/types/global/GeoPoint.types';
 import { Languages } from '@/types/global/Languages.types';
+import { convertTemperature } from '@/utils/convertTemperature';
 import { getWeatherIconName } from '@/utils/getWeatherIconName';
 import { storeToRefs } from 'pinia';
 import { onBeforeMount, onMounted, ref } from 'vue';
@@ -52,7 +53,8 @@ const handleClickOutside = (event: MouseEvent) => {
 };
 
 const handleLocationRemove = () => {
-    const isConfirmed = window.confirm('Are you sure you want to delete location?')
+    const isConfirmed = window.confirm(language.value ===
+        Languages.english ? 'Are you sure you want to delete location?' : 'Ви впевнені що хочете видалити збережену локацію?')
     if (location.geoPoint && isConfirmed) {
         removeLocation(location.geoPoint)
     } else if (!isConfirmed) {
@@ -100,7 +102,7 @@ const fetchCurrentWeather = async (geoPoint: GeoPoint) => {
                 :src="`../assets/weather/${getWeatherIconName(weatherData.weather[0].id)}.svg`" /></div>
         <h2 class="card-city">{{ weatherData.name }}</h2>
         <div class="card-info-wrapper">
-            <p class="info-temp">{{ Math.round(parseFloat(weatherData.main.temp) - 273.15) }}°C</p>
+            <p class="info-temp">{{ convertTemperature(weatherData.main.temp) }}°C</p>
         </div>
         <div class="card-edit-wrapper" ref="editMenuRef">
             <button variant="transparent" @click="handleEditMenuOpen" class="edit-menu-button"

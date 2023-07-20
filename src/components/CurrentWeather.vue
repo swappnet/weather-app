@@ -2,6 +2,7 @@
 import { useControlsStore } from '@/stores/useControlsStore';
 import { useLocationStore } from '@/stores/useLocationStore';
 import { Languages } from '@/types/global/Languages.types';
+import { convertTemperature } from '@/utils/convertTemperature';
 import { storeToRefs } from 'pinia';
 import { onMounted, ref, watch } from 'vue';
 import { getWeatherIconName } from '../utils/getWeatherIconName';
@@ -69,7 +70,7 @@ const fetchCurrentWeather = async () => {
                     :src="`../assets/weather/${getWeatherIconName(weatherData.weather[0].id)}.svg`" />
             </div>
             <div class="weather-card-info" v-if="weatherData">
-                <p class="info-temp">{{ Math.round(parseFloat(weatherData.main.temp) - 273.15) }}°C</p>
+                <p class="info-temp">{{ convertTemperature(weatherData.main.temp) }}°C</p>
                 <p>{{ weatherData.name }}, {{ weatherData.weather[0].description }}</p>
                 <p>{{ new Date().toLocaleString('en-GB', { hour: 'numeric', minute: 'numeric' }) }}</p>
             </div>
