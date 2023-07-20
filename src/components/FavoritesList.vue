@@ -27,7 +27,7 @@ const { language } = storeToRefs(controlsStore)
         <ul v-if="locations.length">
             <FavoriteLocationCard v-for="location in locations" :key="location.date.toString()" :location="location" />
         </ul>
-        <p v-else class="list-not-found">
+        <p v-else class="not-found">
             {{ language === Languages.english ? 'No locations available.' : "Немає доступних локацій." }}
         </p>
     </section>
@@ -47,7 +47,7 @@ ul {
     gap: 1rem;
 }
 
-.list-not-found {
+.not-found {
     font: optional;
     font-family: Roboto, sans-serif;
     color: rgba(67, 67, 67, 1);

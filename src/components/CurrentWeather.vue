@@ -74,7 +74,7 @@ const fetchCurrentWeather = async () => {
                 <p>{{ weatherData.name }}, {{ weatherData.weather[0].description }}</p>
                 <p>{{ new Date().toLocaleString('en-GB', { hour: 'numeric', minute: 'numeric' }) }}</p>
             </div>
-            <div v-else>No weather data available.</div>
+            <p v-else class="not-found">No weather data available.</p>
         </div>
     </section>
 </template>
@@ -111,6 +111,13 @@ section {
     justify-content: center;
     color: #797979;
 
+}
+
+.not-found {
+    font: optional;
+    font-family: Roboto, sans-serif;
+    color: rgba(67, 67, 67, 1);
+    font-weight: 400;
 }
 
 .info-temp {
