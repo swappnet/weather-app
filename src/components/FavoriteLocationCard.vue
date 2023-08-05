@@ -106,13 +106,13 @@ const fetchCurrentWeather = async (geoPoint: GeoPoint) => {
         </div>
         <div class="card-edit-wrapper" ref="editMenuRef">
             <button variant="transparent" @click="handleEditMenuOpen" class="edit-menu-button"
-                title="Edit menu"><font-awesome-icon icon="ellipsis-vertical" style="font-size:large;" /></button>
+                aria-label="Edit menu"><font-awesome-icon icon="ellipsis-vertical" style="font-size:large;" /></button>
             <div v-if="isMenuOpen" class="edit-menu">
-                <button class="menu-button danger" :title="language ===
+                <button class="menu-button danger" :aria-label="language ===
                     Languages.english ? 'Remove' : 'Видалити'" @click="handleLocationRemove">{{ language ===
         Languages.english ? 'Remove' : "Видалити" }}
                     <font-awesome-icon icon="remove" style="font-size:large;" /></button>
-                <button class="menu-button" :title="language ===
+                <button class="menu-button" :aria-label="language ===
                     Languages.english ? 'Open' : 'Відкрити'" @click="handleLocationOpen">{{ language ===
         Languages.english ? 'Open' : "Відкрити" }}<font-awesome-icon icon="arrow-right"
                         style="font-size:large;" /></button>

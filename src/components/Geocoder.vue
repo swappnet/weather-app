@@ -105,10 +105,10 @@ const handleClickOutside = (event: MouseEvent) => {
         <font-awesome-icon icon="search" style="font-size:large;" class="geocoder-icon" />
         <input class="geocoder-input"
             :placeholder="language === Languages.english ? 'Search location ..' : 'Пошук локації ..'"
-            :title="language === Languages.english ? 'Search location' : 'Пошук локації'" v-model="geocoder.query"
+            :aria-label="language === Languages.english ? 'Search location' : 'Пошук локації'" v-model="geocoder.query"
             @input="searchLocation()" @click="handleInputClick" />
         <div v-if="geocoder.resultsOpen && geocoder.results.length > 0" class="geocoder-results-wrapper" ref="resultsRef">
-            <button v-for="(result, index) in geocoder.results.slice(0, 4)" :key="index" :title="result.display_name"
+            <button v-for="(result, index) in geocoder.results.slice(0, 4)" :key="index" :aria-label="result.display_name"
                 @click="handleResultSelect(result)">
                 {{ result.display_name }}
             </button>

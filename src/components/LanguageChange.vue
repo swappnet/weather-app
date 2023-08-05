@@ -17,9 +17,9 @@ const switchLanguage = (newLanguage: Languages) => {
 
 <template>
     <div class="languages-wrapper">
-        <Button variant="transparent" title="EN" @click="switchLanguage(Languages.english)" size="small"
+        <Button variant="transparent" aria-label="EN" @click="switchLanguage(Languages.english)" size="small"
             :disabled="language === Languages.english">EN</Button>
-        <Button variant="transparent" title="UKR" @click="switchLanguage(Languages.ukrainian)" size="small"
+        <Button variant="transparent" aria-label="UKR" @click="switchLanguage(Languages.ukrainian)" size="small"
             :disabled="language === Languages.ukrainian">UKR</Button>
     </div>
 </template>

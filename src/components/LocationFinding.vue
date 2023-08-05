@@ -57,7 +57,7 @@ const handleLocationFind = async () => {
 
 <template>
     <Button variant="filled" :disabled="location.loading"
-        :title="language === Languages.english ? 'Find location' : 'Найти локацію'"
+        :aria-label="language === Languages.english ? 'Find location' : 'Найти локацію'"
         @click="handleLocationFind()"><font-awesome-icon :icon="location.loading ? 'spinner' : 'location-arrow'"
             style="font-size:x-large;" :class="location.loading && 'spin'" class="find-location-button" /></Button>
 </template>

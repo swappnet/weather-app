@@ -78,10 +78,10 @@ const fetchForecast = async () => {
 <template>
     <section>
         <header>
-            <Button variant="plot" :title="language === Languages.english ? 'Hourly' : 'Погодинно'"
+            <Button variant="plot" :aria-label="language === Languages.english ? 'Hourly' : 'Погодинно'"
                 :disabled="plotMode === PlotMode.Day" @click="changePlotMode(PlotMode.Day)">{{ language ===
                     Languages.english ? 'Hourly' : "Погодинно" }}</Button>
-            <Button variant="plot" :title="language === Languages.english ? '5 Days' : ' 5 Днів'"
+            <Button variant="plot" :aria-label="language === Languages.english ? '5 Days' : ' 5 Днів'"
                 :disabled="plotMode === PlotMode.Week" @click="changePlotMode(PlotMode.Week)">{{ language ===
                     Languages.english ? '5 Days' : "5 Днів" }}</Button>
         </header>

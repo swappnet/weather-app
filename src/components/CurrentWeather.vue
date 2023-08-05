@@ -18,7 +18,6 @@ const weatherData = ref<any>(null);
 onMounted(() => {
     if (geoPoint.value) {
         fetchCurrentWeather()
-
     }
 })
 
