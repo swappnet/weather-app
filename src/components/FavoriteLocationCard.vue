@@ -8,7 +8,8 @@ import { Languages } from '@/types/global/Languages.types';
 import { convertTemperature } from '@/utils/convertTemperature';
 import { getWeatherIconName } from '@/utils/getWeatherIconName';
 import { storeToRefs } from 'pinia';
-import { onBeforeMount, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import useClickOutside from '../composables/clickOutside'
 
 type CardProps = {
     location: {
@@ -20,37 +21,26 @@ type CardProps = {
 const editMenuRef = ref<HTMLDivElement>()
 const { location } = defineProps<CardProps>()
 
-
 const { removeLocation } = useSavedLocationsStore()
 const { updateGeoPoint } = useLocationStore()
 const controlsStore = useControlsStore()
 const { language } = storeToRefs(controlsStore)
 
-
 const isLoading = ref<Boolean>(true)
 const isMenuOpen = ref<Boolean>(false)
 const weatherData = ref<any>(null);
+
+useClickOutside(editMenuRef, () => isMenuOpen.value = false)
 
 onMounted(() => {
     if (location.geoPoint) {
         fetchCurrentWeather(location.geoPoint)
     }
-    document.addEventListener('click', handleClickOutside);
 })
-
-onBeforeMount(() => {
-    document.removeEventListener('click', handleClickOutside);
-});
 
 const handleEditMenuOpen = () => {
     isMenuOpen.value = !isMenuOpen.value;
 }
-
-const handleClickOutside = (event: MouseEvent) => {
-    if (editMenuRef.value && !editMenuRef.value.contains(event.target as Node)) {
-        isMenuOpen.value = false;
-    }
-};
 
 const handleLocationRemove = () => {
     const isConfirmed = window.confirm(language.value ===
