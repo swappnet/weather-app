@@ -18,7 +18,7 @@ type CardProps = {
     }
 }
 
-const editMenuRef = ref<HTMLDivElement>()
+const editMenuRef = ref<HTMLElement | null>(null);
 const { location } = defineProps<CardProps>()
 
 const { removeLocation } = useSavedLocationsStore()
@@ -30,7 +30,7 @@ const isLoading = ref<Boolean>(true)
 const isMenuOpen = ref<Boolean>(false)
 const weatherData = ref<any>(null);
 
-useClickOutside(editMenuRef, () => isMenuOpen.value = false)
+useClickOutside(editMenuRef, () => isMenuOpen.value = false);
 
 onMounted(() => {
     if (location.geoPoint) {
