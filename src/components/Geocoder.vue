@@ -1,8 +1,6 @@
 <script setup lang="ts">
 
 import { useLocationStore } from '@/stores/useLocationStore';
-import { Languages } from '@/types/global/Languages.types';
-import { storeToRefs } from 'pinia';
 import { onBeforeMount, onMounted, reactive, ref } from 'vue';
 
 interface GeoResponse {
@@ -101,7 +99,7 @@ const handleClickOutside = (event: MouseEvent) => {
     <div class="location-geocoder-wrapper" @click="handleClickOutside">
         <font-awesome-icon icon="search" style="font-size:large;" class="geocoder-icon" />
         <input class="geocoder-input" placeholder="Search location .." aria-label="Search location"
-            @input="searchLocation()" @click="handleInputClick" />
+            @input="searchLocation()" @click="handleInputClick" v-model="geocoder.query" />
         <div v-if="geocoder.resultsOpen && geocoder.results.length > 0" class="geocoder-results-wrapper" ref="resultsRef">
             <button v-for="(result, index) in geocoder.results.slice(0, 4)" :key="index" :aria-label="result.display_name"
                 @click="handleResultSelect(result)">

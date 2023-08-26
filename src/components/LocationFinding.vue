@@ -4,7 +4,6 @@ import { useLocationStore } from '@/stores/useLocationStore'
 import Button from '@/components/Button.vue'
 import { reactive, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
-import { Languages } from '@/types/global/Languages.types';
 
 const locationStore = useLocationStore()
 
