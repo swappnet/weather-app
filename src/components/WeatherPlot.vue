@@ -2,7 +2,6 @@
 import { onMounted, ref, watch } from 'vue';
 
 import Button from '@/components/Button.vue';
-import { useControlsStore } from '@/stores/useControlsStore';
 import { useLocationStore } from '@/stores/useLocationStore';
 import { Languages } from '@/types/global/Languages.types';
 import { convertTemperature } from '@/utils/convertTemperature';
@@ -16,8 +15,6 @@ enum PlotMode {
 
 const locationStore = useLocationStore()
 const { geoPoint } = storeToRefs(locationStore)
-const controlsStore = useControlsStore()
-const { language } = storeToRefs(controlsStore)
 
 const plotMode = ref<PlotMode>(PlotMode.Day)
 
@@ -78,12 +75,10 @@ const fetchForecast = async () => {
 <template>
     <section>
         <header>
-            <Button variant="plot" :aria-label="language === Languages.english ? 'Hourly' : 'Погодинно'"
-                :disabled="plotMode === PlotMode.Day" @click="changePlotMode(PlotMode.Day)">{{ language ===
-                    Languages.english ? 'Hourly' : "Погодинно" }}</Button>
-            <Button variant="plot" :aria-label="language === Languages.english ? '5 Days' : ' 5 Днів'"
-                :disabled="plotMode === PlotMode.Week" @click="changePlotMode(PlotMode.Week)">{{ language ===
-                    Languages.english ? '5 Days' : "5 Днів" }}</Button>
+            <Button variant="plot" aria-label="Hourly" :disabled="plotMode === PlotMode.Day"
+                @click="changePlotMode(PlotMode.Day)">Hourly</Button>
+            <Button variant="plot" aria-label="5 Days" :disabled="plotMode === PlotMode.Week"
+                @click="changePlotMode(PlotMode.Week)">5 Days</Button>
         </header>
         <div v-if="isLoading" class="plot-main-wrapper">
             <div class="plot-list">

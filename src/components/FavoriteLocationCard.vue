@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import router from '@/router';
-import { useControlsStore } from '@/stores/useControlsStore';
 import { useLocationStore } from '@/stores/useLocationStore';
 import { useSavedLocationsStore } from '@/stores/useSavedLocations';
 import { type GeoPoint } from '@/types/global/GeoPoint.types';
@@ -23,8 +22,6 @@ const { location } = defineProps<CardProps>()
 
 const { removeLocation } = useSavedLocationsStore()
 const { updateGeoPoint } = useLocationStore()
-const controlsStore = useControlsStore()
-const { language } = storeToRefs(controlsStore)
 
 const isLoading = ref<Boolean>(true)
 const isMenuOpen = ref<Boolean>(false)
@@ -43,8 +40,7 @@ const handleEditMenuOpen = () => {
 }
 
 const handleLocationRemove = () => {
-    const isConfirmed = window.confirm(language.value ===
-        Languages.english ? 'Are you sure you want to delete location?' : 'Ви впевнені що хочете видалити збережену локацію?')
+    const isConfirmed = window.confirm('Are you sure you want to delete location?')
     if (location.geoPoint && isConfirmed) {
         removeLocation(location.geoPoint)
     } else if (!isConfirmed) {
@@ -98,14 +94,10 @@ const fetchCurrentWeather = async (geoPoint: GeoPoint) => {
             <button variant="transparent" @click="handleEditMenuOpen" class="edit-menu-button"
                 aria-label="Edit menu"><font-awesome-icon icon="ellipsis-vertical" style="font-size:large;" /></button>
             <div v-if="isMenuOpen" class="edit-menu">
-                <button class="menu-button danger" :aria-label="language ===
-                    Languages.english ? 'Remove' : 'Видалити'" @click="handleLocationRemove">{{ language ===
-        Languages.english ? 'Remove' : "Видалити" }}
+                <button class="menu-button danger" aria-label="Remove" @click="handleLocationRemove">Remove
                     <font-awesome-icon icon="remove" style="font-size:large;" /></button>
-                <button class="menu-button" :aria-label="language ===
-                    Languages.english ? 'Open' : 'Відкрити'" @click="handleLocationOpen">{{ language ===
-        Languages.english ? 'Open' : "Відкрити" }}<font-awesome-icon icon="arrow-right"
-                        style="font-size:large;" /></button>
+                <button class="menu-button" aria-label="Open" @click="handleLocationOpen">Open<font-awesome-icon
+                        icon="arrow-right" style="font-size:large;" /></button>
             </div>
         </div>
     </li>

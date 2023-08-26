@@ -1,6 +1,5 @@
 <script setup lang="ts">
 
-import { useControlsStore } from '@/stores/useControlsStore';
 import { useLocationStore } from '@/stores/useLocationStore';
 import { Languages } from '@/types/global/Languages.types';
 import { storeToRefs } from 'pinia';
@@ -14,8 +13,6 @@ interface GeoResponse {
 
 const resultsRef = ref<HTMLDivElement>()
 const locationStore = useLocationStore()
-const controlsStore = useControlsStore()
-const { language } = storeToRefs(controlsStore)
 
 
 const geocoder = reactive({
@@ -103,9 +100,7 @@ const handleClickOutside = (event: MouseEvent) => {
 <template>
     <div class="location-geocoder-wrapper" @click="handleClickOutside">
         <font-awesome-icon icon="search" style="font-size:large;" class="geocoder-icon" />
-        <input class="geocoder-input"
-            :placeholder="language === Languages.english ? 'Search location ..' : 'Пошук локації ..'"
-            :aria-label="language === Languages.english ? 'Search location' : 'Пошук локації'" v-model="geocoder.query"
+        <input class="geocoder-input" placeholder="Search location .." aria-label="Search location"
             @input="searchLocation()" @click="handleInputClick" />
         <div v-if="geocoder.resultsOpen && geocoder.results.length > 0" class="geocoder-results-wrapper" ref="resultsRef">
             <button v-for="(result, index) in geocoder.results.slice(0, 4)" :key="index" :aria-label="result.display_name"

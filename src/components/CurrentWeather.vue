@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useControlsStore } from '@/stores/useControlsStore';
 import { useLocationStore } from '@/stores/useLocationStore';
 import { Languages } from '@/types/global/Languages.types';
 import { convertTemperature } from '@/utils/convertTemperature';
@@ -9,8 +8,6 @@ import { getWeatherIconName } from '../utils/getWeatherIconName';
 
 const locationStore = useLocationStore()
 const { geoPoint } = storeToRefs(locationStore)
-const controlsStore = useControlsStore()
-const { language } = storeToRefs(controlsStore)
 
 const isLoading = ref<Boolean>(true)
 const weatherData = ref<any>(null);
@@ -27,18 +24,13 @@ watch(geoPoint, () => {
     }
 });
 
-watch(language, () => {
-    if (geoPoint.value) {
-        fetchCurrentWeather()
-    }
-});
 
 const fetchCurrentWeather = async () => {
     if (geoPoint.value) {
         const apiKey = import.meta.env.VITE_API_KEY;
         const latitude = geoPoint.value.lat;
         const longitude = geoPoint.value.lon;
-        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&lang=${language.value === Languages.ukrainian ? 'ua' : 'en'}&appid=${apiKey}`;
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
 
         try {
             const response = await fetch(apiUrl);

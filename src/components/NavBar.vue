@@ -3,13 +3,6 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 import Button from '@/components/Button.vue';
-import { useControlsStore } from '@/stores/useControlsStore';
-import { Languages } from '@/types/global/Languages.types';
-import { storeToRefs } from 'pinia';
-import LanguageChange from './LanguageChange.vue';
-
-const controlsStore = useControlsStore()
-const { language } = storeToRefs(controlsStore)
 
 const route = useRoute();
 
@@ -19,11 +12,9 @@ const path = computed(() => route.path)
 <template>
     <nav>
         <router-link :to="path === '/' ? '/favorites' : '/'" class="nav-link">
-            <Button variant="transparent" size="medium"
-                :aria-label="path === '/' ? language === Languages.english ? 'Favorites' : 'Збережені' : language === Languages.english ? 'Home' : 'Головна'">
+            <Button variant="transparent" size="medium" :aria-label="path === '/' ? 'Favorites' : 'Home'">
                 <font-awesome-icon :icon="path === '/' ? 'bars' : 'arrow-left-long'" style="font-size:x-large;" />
-                <span v-if="path === '/favorites'">{{ language === Languages.english ? 'Back to Home' : "Назад на Головну"
-                }}</span>
+                <span v-if="path === '/favorites'">Back to Home</span>
             </Button>
         </router-link>
         <LanguageChange />

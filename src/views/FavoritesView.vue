@@ -1,17 +1,11 @@
 <script setup lang="ts">
 import LocationsList from '@/components/FavoritesList.vue'
-import { useControlsStore } from '@/stores/useControlsStore';
-import { Languages } from '@/types/global/Languages.types';
-import { storeToRefs } from 'pinia';
-
-const controlsStore = useControlsStore()
-const { language } = storeToRefs(controlsStore)
 </script>
 
 <template>
     <header>
-        <h1>{{ language === Languages.english ? 'Saved locations' : "Збережені локації" }}</h1>
-        <p>{{ language === Languages.english ? 'Maximum 5 location' : "Максимально 5 локацій" }}</p>
+        <h1>Saved locations</h1>
+        <p>Maximum 5 location</p>
     </header>
     <main>
         <LocationsList />
